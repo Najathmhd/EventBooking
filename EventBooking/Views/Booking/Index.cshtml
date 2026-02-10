@@ -1,63 +1,65 @@
 @model IEnumerable<EventBooking.Models.Booking>
 
 @{
-    ViewData["Title"] = "My Bookings";
+    ViewData["Title"] = "My Metropolitan Portfolio";
 }
 
 <div class="container py-5">
-    <div class="mb-5">
-        <h1 class="display-5 fw-bold text-gradient mb-0">My Reservations</h1>
-        <p class="text-muted">Keep track of your upcoming cultural experiences and tickets.</p>
+    <div class="mb-5 animate-slide-up">
+        <div class="accent-line mb-3"></div>
+        <h1 class="display-4 fw-bold text-dark mb-0">My Reservations</h1>
+        <p class="lead text-muted">A comprehensive overview of your upcoming cultural commitments and verified access.</p>
     </div>
 
     @if (!Model.Any())
     {
-        <div class="card shadow-sm border-0 bg-white p-5 text-center">
+        <div class="card shadow-sm border-0 bg-white p-5 text-center animate-slide-up" style="animation-delay: 0.2s">
             <div class="mb-4">
-                <i class="fas fa-ticket-alt fa-5x text-light"></i>
+                <div class="bg-light d-inline-block p-4 rounded-circle">
+                    <i class="fas fa-folder-open fa-5x text-muted opacity-25"></i>
+                </div>
             </div>
-            <h3>No bookings found yet</h3>
-            <p class="text-muted mb-4">Start exploring events and reserve your spot today!</p>
+            <h3 class="fw-bold">Portfolio Empty</h3>
+            <p class="text-muted mb-4 mx-auto" style="max-width: 500px;">You have no active reservations at this time. Explore the metropolitan registry to discover and secure upcoming experiences.</p>
             <div>
-                <a asp-controller="Events" asp-action="Index" class="btn btn-primary px-5">Explore Events</a>
+                <a asp-controller="Events" asp-action="Index" class="btn btn-primary px-5 shadow">Discover Experiences</a>
             </div>
         </div>
     }
     else
     {
-        <div class="row g-4">
+        <div class="row g-4 animate-slide-up" style="animation-delay: 0.2s">
             @foreach (var item in Model)
             {
                 <div class="col-md-6 col-lg-4">
-                    <div class="card h-100 shadow-sm border-0 position-relative overflow-hidden">
-                        <div class="bg-primary py-2 px-4 shadow-sm" style="position: absolute; top: 15px; right: -30px; transform: rotate(45deg); width: 120px; z-index: 10;">
-                            <span class="text-white small fw-bold">BOOKED</span>
-                        </div>
+                    <div class="card h-100 shadow-sm border-0 overflow-hidden reservation-card">
                         <div class="card-body p-4">
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="bg-soft-primary p-3 rounded-3 me-3">
-                                    <i class="fas fa-calendar-check text-primary fa-lg"></i>
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <div class="bg-soft-primary p-3 rounded-3">
+                                    <i class="fas fa-ticket-alt text-primary fa-lg"></i>
                                 </div>
-                                <div>
-                                    <h5 class="card-title mb-0">@item.Event?.Title</h5>
-                                    <span class="text-muted small">@item.Event?.EventDate.ToString("MMMM dd, yyyy")</span>
-                                </div>
+                                <span class="badge rounded-pill bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-3">VERIFIED</span>
+                            </div>
+
+                            <h5 class="fw-bold mb-1">@item.Event?.Title</h5>
+                            <div class="small text-muted mb-4">
+                                <i class="far fa-calendar-check me-2"></i>@item.Event?.EventDate.ToString("MMMM dd, yyyy")
                             </div>
                             
-                            <div class="bg-light p-3 rounded-3 mb-4">
+                            <div class="p-3 bg-light rounded-3 mb-4">
                                 <div class="d-flex justify-content-between mb-2">
-                                    <span class="text-muted small">Venue:</span>
-                                    <span class="fw-bold small">@item.Event?.Venue?.Name</span>
+                                    <span class="text-muted small">Venue Access:</span>
+                                    <span class="fw-bold small text-dark">@item.Event?.Venue?.Name</span>
                                 </div>
                                 <div class="d-flex justify-content-between">
-                                    <span class="text-muted small">TicketsReserved:</span>
-                                    <span class="badge bg-primary rounded-pill">@item.TicketQuantity</span>
+                                    <span class="text-muted small">Allocated Seats:</span>
+                                    <span class="fw-bold text-primary">@item.TicketQuantity</span>
                                 </div>
                             </div>
 
-                            <div class="d-grid mt-4">
-                                <a asp-controller="Events" asp-action="Details" asp-route-id="@item.EventId" class="btn btn-outline-primary btn-sm rounded-pill">
-                                    View Event Info
+                            <div class="d-grid">
+                                <a asp-controller="Events" asp-action="Details" asp-route-id="@item.EventId" class="btn btn-outline-dark btn-sm rounded-pill">
+                                    View Digital Ticket
                                 </a>
                             </div>
                         </div>
@@ -69,5 +71,5 @@
 </div>
 
 <style>
-    .bg-soft-primary { background: rgba(99,102,241,0.1); }
+    .reservation-card:hover { transform: translateY(-5px); }
 </style>

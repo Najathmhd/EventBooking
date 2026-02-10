@@ -4,16 +4,64 @@
 
 <div class="hero-section">
     <div class="container text-center">
-        <h1 class="display-3 fw-bold mb-4 animate-fade">Manage Events with <span class="navbar-brand p-0 fs-1">EventLink</span></h1>
-        <p class="lead mb-5 animate-fade" style="animation-delay: 0.2s">Experience the next generation of ticketing and cultural event management.</p>
-        <div class="d-flex justify-content-center gap-3 animate-fade" style="animation-delay: 0.4s">
-            <a asp-controller="Events" asp-action="Index" class="btn btn-primary btn-lg px-5">Explore Events</a>
-            <a href="#inquiry" class="btn btn-outline-light btn-lg px-5">Get in Touch</a>
+        <h1 class="display-3 fw-bold mb-4 animate-slide-up">Connecting Communities <br /><span class="text-gradient">through Culture</span></h1>
+        <p class="lead mb-5 animate-slide-up" style="animation-delay: 0.2s; max-width: 800px; margin: 0 auto;">
+            EventLink is the metropolitan initiative designed to harmonize cultural management and provide seamless access to the city's most inspiring experiences.
+        </p>
+        <div class="d-flex justify-content-center gap-3 animate-slide-up" style="animation-delay: 0.4s">
+            <a asp-controller="Events" asp-action="Index" class="btn btn-primary btn-lg px-5 shadow">Discover Events</a>
+            <a href="#mission" class="btn btn-outline-light btn-lg px-5">Our Mission</a>
         </div>
     </div>
 </div>
 
-<div class="container mt-5">
+<div class="container mt-5 pt-5" id="mission">
+    <div class="row align-items-center mb-5 pb-5">
+        <div class="col-lg-6 mb-4 mb-lg-0 animate-slide-up">
+            <div class="accent-line"></div>
+            <h2 class="display-5 fw-bold mb-4">A Modern Gateway to Local Culture</h2>
+            <p class="lead text-muted mb-4">
+                We believe that art, music, and community gatherings are the heartbeat of a thriving city. Our platform serves as a professional bridge between organizers and enthusiasts, ensuring every event finds its audience.
+            </p>
+            <div class="row g-4">
+                <div class="col-sm-6">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-check-circle text-primary me-2"></i>
+                        <span class="fw-bold">Seamless Booking</span>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-check-circle text-primary me-2"></i>
+                        <span class="fw-bold">Verified Venues</span>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-check-circle text-primary me-2"></i>
+                        <span class="fw-bold">Role-Based Access</span>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-check-circle text-primary me-2"></i>
+                        <span class="fw-bold">Community Reviews</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 px-lg-5 animate-slide-up" style="animation-delay: 0.2s">
+            <div class="card bg-dark text-white border-0 shadow-lg overflow-hidden position-relative" style="min-height: 400px;">
+                <div class="card-img-overlay d-flex flex-column justify-content-end p-5" style="background: linear-gradient(to top, rgba(15,23,42,1), transparent);">
+                    <h4 class="fw-bold">Empowering Organizers</h4>
+                    <p class="small opacity-75">Our tools are built to help organizers manage venues and event categories with institutional efficiency.</p>
+                </div>
+                <div style="position: absolute; top: 10px; right: -20px; opacity: 0.05; font-size: 15rem;">
+                    <i class="fas fa-shield-halved"></i>
+                </div>
+            </div>
+        </div>
+    </div>
 
 <hr />
 
@@ -26,25 +74,45 @@
     <div class="alert alert-danger">@TempData["Error"]</div>
 }
 
-<div class="row mt-5 pb-5" id="inquiry">
-    <div class="col-md-6 offset-md-3">
-        <div class="card p-4">
-            <h3 class="card-title text-center mb-4">Got a Question? Send an Inquiry</h3>
-            <form asp-controller="Inquiry" asp-action="Submit" method="post">
-                <div class="form-group mb-3">
-                    <label class="form-label">Full Name</label>
-                    <input name="Name" class="form-control" placeholder="John Doe" required />
+<div class="row mt-5 pt-5 pb-5" id="inquiry">
+    <div class="col-md-8 offset-md-2">
+        <div class="card shadow-lg border-0 p-4 p-md-5">
+            <div class="row align-items-center">
+                <div class="col-lg-5 mb-4 mb-lg-0">
+                    <div class="mb-4">
+                        <div class="bg-soft-primary d-inline-block p-3 rounded-circle mb-3">
+                            <i class="fas fa-paper-plane text-primary fa-2x"></i>
+                        </div>
+                        <h3 class="fw-bold">General Inquiries</h3>
+                        <p class="text-muted">Have a question about our metropolitan services? We are here to help.</p>
+                    </div>
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fas fa-map-marker-alt text-primary me-3"></i>
+                        <span class="small text-muted">123 Culture Way, Metropolitan City</span>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-envelope text-primary me-3"></i>
+                        <span class="small text-muted">support@eventlink.gov</span>
+                    </div>
                 </div>
-                <div class="form-group mb-3">
-                    <label class="form-label">Email Address</label>
-                    <input name="Email" type="email" class="form-control" placeholder="john@example.com" required />
+                <div class="col-lg-7">
+                    <form asp-controller="Inquiry" asp-action="Submit" method="post" class="bg-light p-4 rounded-4">
+                        <div class="form-group mb-3">
+                            <label class="form-label small fw-bold">Full Name</label>
+                            <input name="Name" class="form-control border-0" placeholder="John Doe" required />
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label small fw-bold">Email Address</label>
+                            <input name="Email" type="email" class="form-control border-0" placeholder="john@example.com" required />
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label small fw-bold">Message</label>
+                            <textarea name="Message" class="form-control border-0" rows="3" placeholder="How can our team assist you?" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 py-3 mt-2 shadow-sm">Submit Inquiry</button>
+                    </form>
                 </div>
-                <div class="form-group mb-3">
-                    <label class="form-label">Message</label>
-                    <textarea name="Message" class="form-control" rows="4" placeholder="How can we help you?" required></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary w-100 py-3 mt-2">Send Inquiry</button>
-            </form>
+            </div>
         </div>
     </div>
 </div>

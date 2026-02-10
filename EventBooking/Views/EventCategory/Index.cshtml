@@ -1,42 +1,52 @@
 @model IEnumerable<EventBooking.Models.EventCategory>
 
 @{
-    ViewData["Title"] = "Manage Categories";
+    ViewData["Title"] = "Categorization Registry";
 }
 
 <div class="container py-5">
-    <div class="d-flex justify-content-between align-items-center mb-5">
+    <div class="d-flex justify-content-between align-items-end mb-5 animate-slide-up">
         <div>
-            <h1 class="display-5 fw-bold text-gradient mb-0">Event Categories</h1>
-            <p class="text-muted">Organize your events by grouping them into meaningful categories.</p>
+            <div class="accent-line mb-3"></div>
+            <h1 class="display-4 fw-bold text-dark mb-0">Event Classifications</h1>
+            <p class="lead text-muted">A structured taxonomy to help citizens navigate the metropolitan cultural landscape.</p>
         </div>
-        <a asp-action="Create" class="btn btn-primary shadow-sm">
-            <i class="fas fa-plus-circle me-2"></i>New Category
+        <a asp-action="Create" class="btn btn-primary shadow-sm mb-2">
+            <i class="fas fa-layer-group me-2"></i>Define Classification
         </a>
     </div>
 
-    <div class="card shadow-sm border-0">
+    <div class="card shadow-sm border-0 animate-slide-up" style="animation-delay: 0.2s">
         <div class="table-responsive">
-            <table class="table mb-0">
-                <thead>
+            <table class="table table-hover mb-0 align-middle">
+                <thead class="bg-light">
                     <tr>
-                        <th class="ps-4">Category Name</th>
-                        <th class="text-end pe-4">Actions</th>
+                        <th class="ps-4 py-3 text-uppercase small fw-bold tracking-wider">Classification Name</th>
+                        <th class="py-3 text-uppercase small fw-bold tracking-wider">Metric</th>
+                        <th class="text-end pe-4 py-3 text-uppercase small fw-bold tracking-wider">Operational Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td class="ps-4">
-                                <span class="fw-bold text-dark">@item.Name</span>
+                            <td class="ps-4 py-4">
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-soft-primary p-2 rounded-3 me-3">
+                                        <i class="fas fa-tag text-primary"></i>
+                                    </div>
+                                    <span class="fw-bold text-dark fs-5">@item.Name</span>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="badge rounded-pill bg-light text-dark border px-3">System Active</span>
                             </td>
                             <td class="text-end pe-4">
-                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-warning me-2">
-                                    <i class="fas fa-edit"></i>
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-warning rounded-3 me-2 px-3">
+                                    <i class="fas fa-pen-nib small"></i>
                                 </a>
-                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">
-                                    <i class="fas fa-trash"></i>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger rounded-3 px-3">
+                                    <i class="fas fa-trash-alt small"></i>
                                 </a>
                             </td>
                         </tr>
@@ -46,3 +56,7 @@
         </div>
     </div>
 </div>
+
+<style>
+    .tracking-wider { letter-spacing: 0.1em; }
+</style>
