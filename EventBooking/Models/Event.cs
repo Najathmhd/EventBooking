@@ -33,5 +33,9 @@ namespace EventBooking.Models
 
         // 🔹 Auth user who created event
         public string? CreatedBy { get; set; }
+
+        // Navigation
+        public ICollection<Booking> Bookings { get; set; } = new List<Booking>();
+        public ICollection<Review> Reviews { get; set; } = new List<Review>();
     }
 }

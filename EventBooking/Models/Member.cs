@@ -17,12 +17,14 @@ namespace EventBooking.Models
         public string Email { get; set; }
 
         [Required]
-        [StringLength(20)]
-        public string PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; } = string.Empty;
+
+        // Link to Identity User
+        public string? UserId { get; set; }
 
         // Navigation
-        public ICollection<Booking> Bookings { get; set; }
-        public ICollection<Review> Reviews { get; set; }
-        public ICollection<Inquiry> Inquiries { get; set; }
+        public ICollection<Booking> Bookings { get; set; } = new List<Booking>();
+        public ICollection<Review> Reviews { get; set; } = new List<Review>();
+        public ICollection<Inquiry> Inquiries { get; set; } = new List<Inquiry>();
     }
 }

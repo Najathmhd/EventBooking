@@ -27,6 +27,6 @@ namespace EventBooking.Models
         public int? MemberId { get; set; }
 
         [ForeignKey("MemberId")]
-        public Member Member { get; set; }
+        public Member? Member { get; set; }
     }
 }

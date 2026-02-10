@@ -27,9 +27,9 @@ namespace EventBooking.Models
 
         // 🔗 Navigation
         [ForeignKey("MemberId")]
-        public Member Member { get; set; }
+        public Member? Member { get; set; }
 
         [ForeignKey("EventId")]
-        public Event Event { get; set; }
+        public Event? Event { get; set; }
     }
 }
