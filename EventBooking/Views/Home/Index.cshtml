@@ -2,7 +2,50 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome Najath</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="hero-section">
+    <div class="container text-center">
+        <h1 class="display-3 fw-bold mb-4 animate-fade">Manage Events with <span class="navbar-brand p-0 fs-1">EventLink</span></h1>
+        <p class="lead mb-5 animate-fade" style="animation-delay: 0.2s">Experience the next generation of ticketing and cultural event management.</p>
+        <div class="d-flex justify-content-center gap-3 animate-fade" style="animation-delay: 0.4s">
+            <a asp-controller="Events" asp-action="Index" class="btn btn-primary btn-lg px-5">Explore Events</a>
+            <a href="#inquiry" class="btn btn-outline-light btn-lg px-5">Get in Touch</a>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5">
+
+<hr />
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<div class="row mt-5 pb-5" id="inquiry">
+    <div class="col-md-6 offset-md-3">
+        <div class="card p-4">
+            <h3 class="card-title text-center mb-4">Got a Question? Send an Inquiry</h3>
+            <form asp-controller="Inquiry" asp-action="Submit" method="post">
+                <div class="form-group mb-3">
+                    <label class="form-label">Full Name</label>
+                    <input name="Name" class="form-control" placeholder="John Doe" required />
+                </div>
+                <div class="form-group mb-3">
+                    <label class="form-label">Email Address</label>
+                    <input name="Email" type="email" class="form-control" placeholder="john@example.com" required />
+                </div>
+                <div class="form-group mb-3">
+                    <label class="form-label">Message</label>
+                    <textarea name="Message" class="form-control" rows="4" placeholder="How can we help you?" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary w-100 py-3 mt-2">Send Inquiry</button>
+            </form>
+        </div>
+    </div>
+</div>
 </div>

@@ -3,16 +3,20 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - EventBooking</title>
+    <title>@ViewData["Title"] - EventLink</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/EventBooking.styles.css" asp-append-version="true" />
 </head>
-<body>
+<body class="animate-fade">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark border-bottom box-shadow mb-3 sticky-top">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">EventBooking</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <i class="fas fa-calendar-star me-2"></i>EventLink
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -23,9 +27,25 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Events" asp-action="Index">Events</a>
                         </li>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="EventCategory" asp-action="Index">Categories</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Venue" asp-action="Index">Venues</a>
+                            </li>
+                        }
+                        @if (User.IsInRole("Member"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Booking" asp-action="Index">My Bookings</a>
+                            </li>
+                        }
                     </ul>
+                    <partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>
@@ -36,9 +56,33 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="mt-5">
         <div class="container">
-            &copy; 2026 - EventBooking - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="row">
+                <div class="col-md-4">
+                    <h5 class="text-white">EventLink</h5>
+                    <p>The smartest way to manage and discover cultural events in your city.</p>
+                </div>
+                <div class="col-md-4 text-center">
+                    <h5 class="text-white">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a asp-controller="Events" asp-action="Index" class="text-secondary text-decoration-none">Explore Events</a></li>
+                        <li><a asp-controller="Home" asp-action="Index" class="text-secondary text-decoration-none">Support</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 text-end">
+                    <h5 class="text-white">Follow Us</h5>
+                    <div class="d-flex justify-content-end gap-3 fs-4">
+                        <i class="fab fa-facebook text-secondary"></i>
+                        <i class="fab fa-twitter text-secondary"></i>
+                        <i class="fab fa-instagram text-secondary"></i>
+                    </div>
+                </div>
+            </div>
+            <hr class="mt-4 border-secondary opacity-25" />
+            <div class="text-center pb-4">
+                &copy; 2026 - EventLink - <a asp-area="" asp-controller="Home" asp-action="Privacy" class="text-secondary">Privacy</a>
+            </div>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
