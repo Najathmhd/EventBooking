@@ -8,7 +8,7 @@
     <div class="d-flex justify-content-between align-items-end mb-5 animate-slide-up">
         <div>
             <div class="accent-line mb-3"></div>
-            <h1 class="display-4 fw-bold text-dark mb-0">Event Classifications</h1>
+            <h1 class="display-4 fw-bold mb-0">Event Classifications</h1>
             <p class="lead text-muted">A structured taxonomy to help citizens navigate the metropolitan cultural landscape.</p>
         </div>
         <a asp-action="Create" class="btn btn-primary shadow-sm mb-2">
@@ -18,8 +18,8 @@
 
     <div class="card shadow-sm border-0 animate-slide-up" style="animation-delay: 0.2s">
         <div class="table-responsive">
-            <table class="table table-hover mb-0 align-middle">
-                <thead class="bg-light">
+            <table class="table table-hover mb-0 align-middle border-0">
+                <thead>
                     <tr>
                         <th class="ps-4 py-3 text-uppercase small fw-bold tracking-wider">Classification Name</th>
                         <th class="py-3 text-uppercase small fw-bold tracking-wider">Metric</th>
@@ -32,14 +32,14 @@
                         <tr>
                             <td class="ps-4 py-4">
                                 <div class="d-flex align-items-center">
-                                    <div class="bg-soft-primary p-2 rounded-3 me-3">
+                                    <div class="p-2 rounded-3 me-3" style="background: rgba(255,255,255,0.03)">
                                         <i class="fas fa-tag text-primary"></i>
                                     </div>
-                                    <span class="fw-bold text-dark fs-5">@item.Name</span>
+                                    <span class="fw-bold fs-5">@item.Name</span>
                                 </div>
                             </td>
                             <td>
-                                <span class="badge rounded-pill bg-light text-dark border px-3">System Active</span>
+                                <span class="badge rounded-pill border px-3" style="background: rgba(255,255,255,0.03); color: var(--text-muted)">System Active</span>
                             </td>
                             <td class="text-end pe-4">
                                 <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-warning rounded-3 me-2 px-3">

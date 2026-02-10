@@ -41,14 +41,14 @@
                          </div>
                     </div>
 
-                    <div class="p-4 p-md-5 bg-white">
+                    <div class="p-4 p-md-5">
                         <div class="accent-line"></div>
                         <h4 class="fw-bold mb-4">Event Narrative</h4>
                         <div class="lead text-dark opacity-75 mb-5" style="line-height: 1.8; font-size: 1.25rem;">
                             @Model.Description
                         </div>
 
-                        <div class="mt-5 p-4 rounded-4 bg-light border-0 d-flex align-items-center">
+                        <div class="mt-5 p-4 rounded-4 d-flex align-items-center" style="background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border);">
                             <div class="me-4">
                                 <img src="https://ui-avatars.com/api/?name=@(Model.CreatedBy ?? "Curator")&background=0f172a&color=fff&bold=true" class="rounded-circle shadow-sm" width="60" alt="Curator" />
                             </div>
@@ -92,7 +92,7 @@
                     }
                     else
                     {
-                        <div class="bg-light p-4 rounded-4 mb-4">
+                        <div class="p-4 rounded-4 mb-4" style="background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border);">
                             <p class="small text-muted mb-4 text-center">Metropolitan access requires a verified citizen or observer profile.</p>
                             <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-primary w-100 py-2 shadow-sm">Sign In / Register</a>
                         </div>

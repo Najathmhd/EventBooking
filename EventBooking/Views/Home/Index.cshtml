@@ -6,7 +6,7 @@
     <div class="container text-center">
         <h1 class="display-3 fw-bold mb-4 animate-slide-up">Connecting Communities <br /><span class="text-gradient">through Culture</span></h1>
         <p class="lead mb-5 animate-slide-up" style="animation-delay: 0.2s; max-width: 800px; margin: 0 auto;">
-            EventLink is the metropolitan initiative designed to harmonize cultural management and provide seamless access to the city's most inspiring experiences.
+            EventBooking is the metropolitan initiative designed to harmonize cultural management and provide seamless access to the city's most inspiring experiences.
         </p>
         <div class="d-flex justify-content-center gap-3 animate-slide-up" style="animation-delay: 0.4s">
             <a asp-controller="Events" asp-action="Index" class="btn btn-primary btn-lg px-5 shadow">Discover Events</a>
@@ -92,11 +92,11 @@
                     </div>
                     <div class="d-flex align-items-center">
                         <i class="fas fa-envelope text-primary me-3"></i>
-                        <span class="small text-muted">support@eventlink.gov</span>
+                        <span class="small text-muted">support@eventbooking.gov</span>
                     </div>
                 </div>
                 <div class="col-lg-7">
-                    <form asp-controller="Inquiry" asp-action="Submit" method="post" class="bg-light p-4 rounded-4">
+                    <form asp-controller="Inquiry" asp-action="Submit" method="post" class="p-4 rounded-4" style="background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border);">
                         <div class="form-group mb-3">
                             <label class="form-label small fw-bold">Full Name</label>
                             <input name="Name" class="form-control border-0" placeholder="John Doe" required />
