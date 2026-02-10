@@ -1,0 +1,92 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
+using EventBooking.Data;
+using EventBooking.Models;
+using System.Security.Claims;
+using System.Linq;
+
+namespace EventBooking.Controllers
+{
+    [Authorize(Roles = "Member,Admin")]
+    public class BookingController : Controller
+    {
+        private readonly ApplicationDbContext _context;
+
+        public BookingController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        // GET: /Booking
+        public async Task<IActionResult> Index()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var member = await _context.Members.FirstOrDefaultAsync(m => m.UserId == userId);
+
+            if (member == null && !User.IsInRole("Admin"))
+            {
+                return NotFound("Member profile not found.");
+            }
+
+            var bookingsQuery = _context.Bookings
+                .Include(b => b.Event)
+                .ThenInclude(e => e.Venue)
+                .AsQueryable();
+
+            if (!User.IsInRole("Admin"))
+            {
+                bookingsQuery = bookingsQuery.Where(b => b.MemberId == member.MemberId);
+            }
+
+            return View(await bookingsQuery.ToListAsync());
+        }
+
+        // POST: /Booking/Book
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Book(int eventId, int quantity)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var member = await _context.Members.FirstOrDefaultAsync(m => m.UserId == userId);
+
+            if (member == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            // Prevent double booking for the same event by the same member
+            var existingBooking = await _context.Bookings
+                .FirstOrDefaultAsync(b => b.EventId == eventId && b.MemberId == member.MemberId);
+
+            if (existingBooking != null)
+            {
+                TempData["Error"] = "You have already booked this event.";
+                return RedirectToAction("Details", "Events", new { id = eventId });
+            }
+
+            var @event = await _context.Events.FindAsync(eventId);
+            if (@event == null) return NotFound();
+
+            if (@event.EventDate < DateTime.Now)
+            {
+                TempData["Error"] = "Cannot book past events.";
+                return RedirectToAction("Details", "Events", new { id = eventId });
+            }
+
+            var booking = new Booking
+            {
+                EventId = eventId,
+                MemberId = member.MemberId,
+                BookingDate = DateTime.Now,
+                TicketQuantity = quantity
+            };
+
+            _context.Bookings.Add(booking);
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = "Booking successful!";
+            return RedirectToAction(nameof(Index));
+        }
+    }
+}
