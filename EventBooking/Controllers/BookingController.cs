@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace EventBooking.Controllers
 {
-    [Authorize(Roles = "Member,Admin")]
+    [Authorize]
     public class BookingController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -53,6 +53,25 @@ namespace EventBooking.Controllers
 
             if (member == null)
             {
+                // Auto-create member profile for authenticated users
+                member = new Member
+                {
+                    FullName = User.Identity?.Name?.Split('@')[0] ?? "New Citizen",
+                    Email = User.Identity?.Name ?? "unknown@eventbooking.com",
+                    PhoneNumber = "0000000000",
+                    UserId = userId ?? string.Empty
+                };
+                
+                _context.Members.Add(member);
+                await _context.SaveChangesAsync();
+                
+                // Re-fetch to ensure we have the ID
+                member = await _context.Members.FirstOrDefaultAsync(m => m.UserId == userId);
+            }
+
+            if (member == null)
+            {
+                TempData["Error"] = "Metropolitan synchronization failed. Please try again.";
                 return RedirectToAction("Index", "Home");
             }
 

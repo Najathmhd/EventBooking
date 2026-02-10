@@ -2,15 +2,15 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="hero-section">
-    <div class="container text-center">
-        <h1 class="display-3 fw-bold mb-4 animate-slide-up">Connecting Communities <br /><span class="text-gradient">through Culture</span></h1>
-        <p class="lead mb-5 animate-slide-up" style="animation-delay: 0.2s; max-width: 800px; margin: 0 auto;">
+<div class="hero-section position-relative overflow-hidden" style="background: linear-gradient(rgba(2, 6, 23, 0.8), rgba(2, 6, 23, 0.8)), url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=2070&auto=format&fit=crop') center/cover no-repeat !important;">
+    <div class="container text-center py-5">
+        <h1 class="display-2 fw-bold mb-4 animate-slide-up">Connecting Communities <br /><span class="text-gradient">through Culture</span></h1>
+        <p class="lead mb-5 animate-slide-up text-light opacity-90" style="animation-delay: 0.2s; max-width: 850px; margin: 0 auto; font-size: 1.4rem;">
             EventBooking is the metropolitan initiative designed to harmonize cultural management and provide seamless access to the city's most inspiring experiences.
         </p>
         <div class="d-flex justify-content-center gap-3 animate-slide-up" style="animation-delay: 0.4s">
-            <a asp-controller="Events" asp-action="Index" class="btn btn-primary btn-lg px-5 shadow">Discover Events</a>
-            <a href="#mission" class="btn btn-outline-light btn-lg px-5">Our Mission</a>
+            <a asp-controller="Events" asp-action="Index" class="btn btn-primary btn-lg px-5 shadow-lg border-0 py-3">Discover Events</a>
+            <a href="#mission" class="btn btn-outline-light btn-lg px-5 py-3 blur-effect">Our Mission</a>
         </div>
     </div>
 </div>
@@ -51,13 +51,13 @@
             </div>
         </div>
         <div class="col-lg-6 px-lg-5 animate-slide-up" style="animation-delay: 0.2s">
-            <div class="card bg-dark text-white border-0 shadow-lg overflow-hidden position-relative" style="min-height: 400px;">
-                <div class="card-img-overlay d-flex flex-column justify-content-end p-5" style="background: linear-gradient(to top, rgba(15,23,42,1), transparent);">
-                    <h4 class="fw-bold">Empowering Organizers</h4>
-                    <p class="small opacity-75">Our tools are built to help organizers manage venues and event categories with institutional efficiency.</p>
-                </div>
-                <div style="position: absolute; top: 10px; right: -20px; opacity: 0.05; font-size: 15rem;">
-                    <i class="fas fa-shield-halved"></i>
+            <div class="card bg-dark text-white border-0 shadow-lg overflow-hidden position-relative" style="min-height: 450px; background: url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=2069&auto=format&fit=crop') center/cover no-repeat !important;">
+                <div class="card-img-overlay d-flex flex-column justify-content-end p-5" style="background: linear-gradient(to top, rgba(15,23,42,1) 0%, rgba(15,23,42,0.6) 50%, transparent 100%);">
+                    <div class="mb-2">
+                        <span class="badge bg-primary rounded-pill mb-2 px-3">Official Partner</span>
+                    </div>
+                    <h2 class="fw-bold display-6">Empowering Organizers</h2>
+                    <p class="opacity-90 lead">Our tools are built to help organizers manage venues and event categories with institutional efficiency.</p>
                 </div>
             </div>
         </div>

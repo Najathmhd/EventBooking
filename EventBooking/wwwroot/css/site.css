@@ -18,6 +18,31 @@
     --card-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.3);
     --hover-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
     --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --blur-intensity: 12px;
+}
+
+.tracking-tight {
+    letter-spacing: -0.05em;
+}
+
+.blur-effect {
+    backdrop-filter: blur(var(--blur-intensity));
+    -webkit-backdrop-filter: blur(var(--blur-intensity));
+    background: rgba(255, 255, 255, 0.05) !important;
+}
+
+.animate-fade-in {
+    animation: fadeIn 1s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 body {
@@ -186,20 +211,36 @@ footer {
 #registerForm,
 .identity-card-wrapper {
     background: var(--bg-card) !important;
-    padding: 3rem !important;
-    border-radius: 28px !important;
+    padding: 3.5rem !important;
+    border-radius: 32px !important;
     border: 1px solid var(--glass-border) !important;
     box-shadow: var(--hover-shadow) !important;
     margin-top: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+#account::before,
+#registerForm::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--primary-gradient);
 }
 
 #account h2,
 #registerForm h2,
+#account h1,
+#registerForm h1,
 #account h3 {
     font-weight: 800;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
     color: var(--text-main) !important;
     text-align: center;
+    letter-spacing: -1px;
 }
 
 .form-floating>label {
@@ -215,25 +256,28 @@ footer {
     color: var(--text-muted);
 }
 
-/* Force Identity Layout centering */
+/* Auth Page Layout Centering & Hiding External Providers */
 .row:has(#account),
 .row:has(#registerForm) {
     justify-content: center !important;
-    min-height: 70vh;
+    min-height: 80vh;
     align-items: center;
 }
 
 .col-md-4:has(#account),
-.col-md-4:has(#registerForm) {
+.col-md-4:has(#registerForm),
+.col-md-6:has(#registerForm) {
     width: 100% !important;
-    max-width: 500px !important;
+    max-width: 550px !important;
     flex: 0 0 auto !important;
 }
 
+/* Hide Unused Identity Columns and Dividers */
+.row:has(#account)>.col-md-6:not(:has(#account)),
+.row:has(#registerForm)>.col-md-6:not(:has(#registerForm)),
+.row:has(#account) hr,
 section[id^="external"],
-.col-md-6:has(section[id^="external"]),
-section[id^="external"]+hr,
-hr+h3:has(+ section[id^="external"]) {
+.login-external-providers {
     display: none !important;
 }
 

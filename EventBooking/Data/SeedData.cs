@@ -29,7 +29,7 @@ namespace EventBooking.Data
             }
 
             // Create Admin User
-            var adminEmail = "admin@eventbooking.com";
+            var adminEmail = "najamhd037@gmail.com";
             var adminUser = await userManager.FindByEmailAsync(adminEmail);
 
             if (adminUser == null)
@@ -41,11 +41,16 @@ namespace EventBooking.Data
                     EmailConfirmed = true
                 };
                 await userManager.CreateAsync(adminUser, "Admin@123");
+            }
+
+            if (!await userManager.IsInRoleAsync(adminUser, "Admin"))
+            {
                 await userManager.AddToRoleAsync(adminUser, "Admin");
             }
 
-            // Create a default Member profile for the admin if needed
-            if (!context.Members.Any(m => m.Email == adminEmail))
+            // Create or Sync Admin Member Profile
+            var adminMember = context.Members.FirstOrDefault(m => m.Email == adminEmail);
+            if (adminMember == null)
             {
                 context.Members.Add(new Member
                 {
@@ -54,6 +59,21 @@ namespace EventBooking.Data
                     PhoneNumber = "0000000000",
                     UserId = adminUser.Id
                 });
+            }
+            else
+            {
+                adminMember.UserId = adminUser.Id;
+            }
+            await context.SaveChangesAsync();
+
+            // Cleanup old hardcoded admin if it exists
+            var oldAdminEmail = "admin@eventbooking.com";
+            var oldAdminUser = await userManager.FindByEmailAsync(oldAdminEmail);
+            if (oldAdminUser != null)
+            {
+                var oldMember = context.Members.FirstOrDefault(m => m.Email == oldAdminEmail);
+                if (oldMember != null) context.Members.Remove(oldMember);
+                await userManager.DeleteAsync(oldAdminUser);
                 await context.SaveChangesAsync();
             }
         }
