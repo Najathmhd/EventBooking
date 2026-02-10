@@ -11,7 +11,7 @@ namespace EventBooking.Models
 
         [Required]
         [StringLength(300)]
-        public string Comment { get; set; }
+        public string Comment { get; set; } = string.Empty;
 
         [Required]
         public int Rating { get; set; } // 1 to 5

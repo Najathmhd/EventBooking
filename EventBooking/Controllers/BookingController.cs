@@ -36,6 +36,7 @@ namespace EventBooking.Controllers
 
             if (!User.IsInRole("Admin"))
             {
+                if (member == null) return NotFound("Member profile not found.");
                 bookingsQuery = bookingsQuery.Where(b => b.MemberId == member.MemberId);
             }
 

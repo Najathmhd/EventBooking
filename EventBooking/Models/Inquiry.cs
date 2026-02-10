@@ -11,15 +11,15 @@ namespace EventBooking.Models
 
         [Required]
         [StringLength(100)]
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         [Required]
         [EmailAddress]
-        public string Email { get; set; }
+        public string Email { get; set; } = string.Empty;
 
         [Required]
         [StringLength(300)]
-        public string Message { get; set; }
+        public string Message { get; set; } = string.Empty;
 
         public DateTime InquiryDate { get; set; }
 

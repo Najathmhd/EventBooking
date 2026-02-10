@@ -89,6 +89,7 @@ namespace EventBooking.Controllers
         public IActionResult DeleteConfirmed(int id)
         {
             var venue = _context.Venues.Find(id);
+            if (venue == null) return NotFound();
 
             bool isUsed = _context.Events.Any(e => e.VenueId == id);
             if (isUsed)
