@@ -26,7 +26,7 @@
                                 </div>
                                 <div>
                                     <div class="small opacity-50 text-uppercase tracking-wider" style="font-size: 0.7rem">Scheduled Date</div>
-                                    <div class="fw-bold fs-5">@Model.EventDate.ToString("MMMM dd, yyyy")</div>
+                                    <div class="fw-bold fs-5">@(Model?.EventDate.ToString("MMMM dd, yyyy") ?? "Date TBD")</div>
                                 </div>
                             </div>
                             <div class="d-flex align-items-center">
