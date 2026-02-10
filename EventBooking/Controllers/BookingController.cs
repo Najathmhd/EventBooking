@@ -31,7 +31,7 @@ namespace EventBooking.Controllers
 
             var bookingsQuery = _context.Bookings
                 .Include(b => b.Event)
-                .ThenInclude(e => e.Venue)
+                .ThenInclude(e => e!.Venue)
                 .AsQueryable();
 
             if (!User.IsInRole("Admin"))
