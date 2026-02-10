@@ -1,58 +1,85 @@
 ﻿@model EventBooking.Models.Event
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create New Event";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <div class="card shadow-lg border-0 animate-slide-up">
+                <div class="card-body p-4 p-md-5">
+                    <div class="text-center mb-5">
+                        <div class="bg-soft-primary d-inline-block p-3 rounded-circle mb-3">
+                            <i class="fas fa-calendar-plus text-primary fa-2x"></i>
+                        </div>
+                        <h2 class="fw-bold">Create an Event</h2>
+                        <p class="text-muted">Fill in the details below to bring your cultural event to life.</p>
+                    </div>
 
-<h4>Event</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger border-0 small py-2"></div>
+                        
+                        <div class="form-group mb-4">
+                            <label asp-for="Title" class="form-label fw-bold small">Event Title</label>
+                            <input asp-for="Title" class="form-control" placeholder="e.g. Moonlight Jazz Festival" />
+                            <span asp-validation-for="Title" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label asp-for="Description" class="form-label fw-bold small">Tell us more about it</label>
+                            <textarea asp-for="Description" class="form-control" rows="4" placeholder="Describe the experience..."></textarea>
+                            <span asp-validation-for="Description" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label asp-for="EventDate" class="form-label fw-bold small">When is it happening?</label>
+                            <input asp-for="EventDate" class="form-control" type="datetime-local" />
+                            <span asp-validation-for="EventDate" class="text-danger small"></span>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6 mb-3 mb-md-0">
+                                <label asp-for="VenueId" class="form-label fw-bold small">Where?</label>
+                                <select asp-for="VenueId" class="form-select" asp-items="ViewBag.VenueId">
+                                    <option value="">-- Select Venue --</option>
+                                </select>
+                                <span asp-validation-for="VenueId" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="CategoryId" class="form-label fw-bold small">Category</label>
+                                <select asp-for="CategoryId" class="form-select" asp-items="ViewBag.CategoryId">
+                                    <option value="">-- Select Category --</option>
+                                </select>
+                                <span asp-validation-for="CategoryId" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="d-grid mt-5">
+                            <button type="submit" class="btn btn-primary btn-lg py-3 shadow">
+                                <i class="fas fa-magic me-2"></i>Publish Event
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="text-center mt-4">
+                        <a asp-action="Index" class="text-muted text-decoration-none small"><i class="fas fa-arrow-left me-2"></i>Nevermind, go back</a>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
+            
+            <div class="mt-4 p-3 bg-white rounded-3 shadow-sm border-start border-primary border-4 animate-slide-up" style="animation-delay: 0.1s">
+                <p class="mb-0 small text-muted"><i class="fas fa-lightbulb text-warning me-2"></i><strong>Tip:</strong> Great titles and clear descriptions help more people discover your event!</p>
             </div>
-            <div class="form-group">
-                <label asp-for="EventDate" class="control-label"></label>
-                <input asp-for="EventDate" class="form-control" />
-                <span asp-validation-for="EventDate" class="text-danger"></span>
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="VenueId" class="control-label">Venue</label>
-                <select asp-for="VenueId" class ="form-control" asp-items="ViewBag.VenueId">
-                    <option value="">-- Select Venue --</option>
-                </select>
-                <span asp-validation-for="VenueId" class="text-danger"></span>
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="CategoryId" class="control-label">Category</label>
-                <select asp-for="CategoryId" class ="form-control" asp-items="ViewBag.CategoryId">
-                    <option value="">-- Select Category --</option>
-                </select>
-                <span asp-validation-for="CategoryId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create Event" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<style>
+    .bg-soft-primary { background: rgba(99,102,241,0.1); }
+</style>

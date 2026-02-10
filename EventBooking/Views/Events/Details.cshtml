@@ -6,123 +6,137 @@
 }
 
 <div class="container py-5 mt-4">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item"><a asp-controller="Events" asp-action="Index">Events</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.Title</li>
+        </ol>
+    </nav>
+
     @if (TempData["Success"] != null)
     {
-        <div class="alert alert-success alert-dismissible fade show shadow-sm border-0 mb-4" role="alert" style="background: rgba(16, 185, 129, 0.1); color: #059669;">
+        <div class="alert alert-success alert-dismissible fade show shadow-sm border-0 mb-4 animate-slide-up" role="alert" style="background: rgba(16, 185, 129, 0.1); color: #059669; border-radius: 12px;">
             <i class="fas fa-check-circle me-2"></i>@TempData["Success"]
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     }
     @if (TempData["Error"] != null)
     {
-        <div class="alert alert-danger alert-dismissible fade show shadow-sm border-0 mb-4" role="alert" style="background: rgba(239, 68, 68, 0.1); color: #dc2626;">
+        <div class="alert alert-danger alert-dismissible fade show shadow-sm border-0 mb-4 animate-slide-up" role="alert" style="background: rgba(239, 68, 68, 0.1); color: #dc2626; border-radius: 12px;">
             <i class="fas fa-exclamation-circle me-2"></i>@TempData["Error"]
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     }
 
     <div class="row">
-        <div class="col-lg-8">
-            <div class="card mb-4 shadow-sm border-0 animate-fade">
-                <div class="card-header bg-transparent py-4 px-4 border-0">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <span class="badge bg-soft-primary text-primary mb-2" style="background: rgba(99,102,241,0.1)">@Model.Category?.Name</span>
-                            <h1 class="display-5 fw-bold text-dark">@Model.Title</h1>
-                        </div>
-                        @if (User.IsInRole("Admin") || User.IsInRole("Organizer"))
-                        {
-                            <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning shadow-sm">
-                                <i class="fas fa-edit me-2"></i>Edit Event
-                            </a>
-                        }
-                    </div>
-                </div>
-                <div class="card-body px-4 pb-4">
-                    <div class="row mb-5 g-4">
-                        <div class="col-md-6">
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="bg-light p-3 rounded-circle me-3">
-                                    <i class="fas fa-calendar-day text-primary fa-lg"></i>
-                                </div>
-                                <div>
-                                    <p class="text-muted small mb-0">Date & Time</p>
-                                    <p class="fw-bold mb-0">@Model.EventDate.ToString("dddd, MMMM dd, yyyy")</p>
-                                </div>
+        <div class="col-lg-8 mb-4">
+            <div class="card shadow-sm border-0 animate-slide-up overflow-hidden">
+                <div class="card-body p-0">
+                    <div class="p-4 p-md-5" style="background: var(--dark-bg); color: white; position: relative;">
+                         <div style="position: absolute; top:0; right:0; opacity: 0.1; font-size: 10rem; pointer-events: none;">
+                            <i class="fas fa-calendar-alt"></i>
+                         </div>
+                         <span class="badge bg-primary mb-3 px-3 py-2 rounded-pill">@Model.Category?.Name</span>
+                         <h1 class="display-4 fw-bold mb-3">@Model.Title</h1>
+                         <div class="d-flex flex-wrap gap-4 mt-4">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-clock fs-4 me-3 text-primary"></i>
+                                <span>@Model.EventDate.ToString("MMMM dd, yyyy")</span>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="bg-light p-3 rounded-circle me-3">
-                                    <i class="fas fa-map-marker-alt text-primary fa-lg"></i>
-                                </div>
-                                <div>
-                                    <p class="text-muted small mb-0">Location</p>
-                                    <p class="fw-bold mb-0">@Model.Venue?.Name</p>
-                                    <p class="text-muted small mb-0">@Model.Venue?.Address</p>
-                                </div>
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-map-marker-alt fs-4 me-3 text-primary"></i>
+                                <span>@Model.Venue?.Name</span>
                             </div>
-                        </div>
+                         </div>
                     </div>
 
-                    <h4 class="fw-bold mb-3">About this Event</h4>
-                    <p class="lead text-muted" style="line-height: 1.8;">@Model.Description</p>
+                    <div class="p-4 p-md-5 bg-white">
+                        <div class="accent-line"></div>
+                        <h4 class="fw-bold mb-4">A Note from the Organizer</h4>
+                        <div class="lead text-muted" style="line-height: 1.8;">
+                            @Model.Description
+                        </div>
+
+                        <div class="mt-5 p-4 rounded-4" style="background: #f1f5f9; border-left: 6px solid #6366f1;">
+                            <div class="d-flex align-items-center">
+                                <div class="me-3">
+                                    <img src="https://ui-avatars.com/api/?name=@(Model.CreatedBy ?? "Admin")&background=6366f1&color=fff" class="rounded-circle shadow-sm" width="50" alt="Organizer" />
+                                </div>
+                                <div>
+                                    <h6 class="mb-0 fw-bold">Published by @(Model.CreatedBy ?? "System Admin")</h6>
+                                    <p class="mb-0 small text-muted">A dedicated curator of cultural experiences.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="card shadow-sm border-0 animate-fade" style="animation-delay: 0.2s">
-                <div class="card-body p-4">
-                    <h3 class="fw-bold mb-4"><i class="fas fa-star text-warning me-2"></i>Reviews</h3>
+            <div class="card shadow-sm border-0 mt-4 animate-slide-up" style="animation-delay: 0.2s">
+                <div class="card-body p-4 p-md-5">
+                    <h3 class="fw-bold mb-4"><i class="fas fa-comments text-primary me-2"></i>Community Voices</h3>
+                    <p class="text-muted mb-5">Hear what others are saying about this cultural journey.</p>
+                    
                     @if (Model.Reviews != null && Model.Reviews.Any())
                     {
                         @foreach (var review in Model.Reviews)
                         {
                             <div class="mb-4 pb-4 border-bottom last-no-border">
-                                <div class="d-flex justify-content-between mb-2">
-                                    <h6 class="fw-bold mb-0">@review.Member?.FullName</h6>
-                                    <div class="text-warning">
-                                        @for (int i = 0; i < review.Rating; i++) { <i class="fas fa-star"></i> }
+                                <div class="d-flex align-items-center mb-2">
+                                    <div class="me-3">
+                                         <img src="https://ui-avatars.com/api/?name=@(review.Member?.FullName)&background=e2e8f0&color=475569" class="rounded-circle" width="40" alt="Reviewer" />
+                                    </div>
+                                    <div>
+                                        <h6 class="fw-bold mb-0">@review.Member?.FullName</h6>
+                                        <div class="text-warning small">
+                                            @for (int i = 0; i < review.Rating; i++) { <i class="fas fa-star"></i> }
+                                            @for (int i = review.Rating; i < 5; i++) { <i class="far fa-star text-muted opacity-25"></i> }
+                                        </div>
                                     </div>
                                 </div>
-                                <p class="text-muted">@review.Comment</p>
+                                <p class="text-muted ps-5">"@review.Comment"</p>
                             </div>
                         }
                     }
                     else
                     {
-                        <p class="text-muted italic">No reviews yet. Be the first to share your experience!</p>
+                        <div class="text-center py-5">
+                            <i class="fas fa-comment-dots fa-3x text-light mb-3 d-block"></i>
+                            <p class="text-muted italic">No reviews yet. Be the first to share your experience!</p>
+                        </div>
                     }
 
-                    <div class="mt-5 pt-4 bg-light p-4 rounded-3 border">
-                        <h5 class="fw-bold mb-3">Leave a Review</h5>
+                    <div class="mt-5 pt-4 bg-light p-4 rounded-4 border-dashed" style="border: 2px dashed #cbd5e1;">
+                        <h5 class="fw-bold mb-3">Share Your Thoughts</h5>
                         @if (User.Identity.IsAuthenticated)
                         {
                             <form asp-controller="Review" asp-action="Submit" method="post">
                                 <input type="hidden" name="eventId" value="@Model.Id" />
                                 <div class="row">
-                                    <div class="col-md-4 mb-3">
-                                        <label class="form-label">Rating</label>
-                                        <select name="rating" class="form-select">
-                                            <option value="5">5 Stars - Amazing</option>
-                                            <option value="4">4 Stars - Great</option>
-                                            <option value="3">3 Stars - Good</option>
-                                            <option value="2">2 Stars - Fair</option>
-                                            <option value="1">1 Star - Poor</option>
+                                    <div class="col-md-5 mb-3">
+                                        <label class="form-label small fw-bold">How would you rate it?</label>
+                                        <select name="rating" class="form-select border-0 shadow-sm">
+                                            <option value="5">⭐⭐⭐⭐⭐ Outstanding</option>
+                                            <option value="4">⭐⭐⭐⭐ Great</option>
+                                            <option value="3">⭐⭐⭐ Good</option>
+                                            <option value="2">⭐⭐ Fair</option>
+                                            <option value="1">⭐ Poor</option>
                                         </select>
                                     </div>
                                     <div class="col-12 mb-3">
-                                        <label class="form-label">Your Experience</label>
-                                        <textarea name="comment" class="form-control" rows="3" placeholder="Tell us what you loved..." required></textarea>
+                                        <label class="form-label small fw-bold">Your Review</label>
+                                        <textarea name="comment" class="form-control border-0 shadow-sm" rows="3" placeholder="Tell the community about your experience..." required></textarea>
                                     </div>
                                     <div class="col-12 text-end">
-                                        <button type="submit" class="btn btn-primary px-4">Post Review</button>
+                                        <button type="submit" class="btn btn-primary px-5">Post Review</button>
                                     </div>
                                 </div>
                             </form>
                         }
                         else
                         {
-                            <p class="mb-0"><i class="fas fa-info-circle me-2"></i>Please <a asp-area="Identity" asp-page="/Account/Login">Login</a> to leave a review.</p>
+                            <p class="mb-0 text-center py-2"><i class="fas fa-info-circle me-2 text-primary"></i>Please <a asp-area="Identity" asp-page="/Account/Login" class="fw-bold">Login</a> to leave a review.</p>
                         }
                     </div>
                 </div>
@@ -130,38 +144,55 @@
         </div>
 
         <div class="col-lg-4">
-            <div class="card sticky-top shadow animate-fade" style="top: 100px; animation-delay: 0.1s; z-index: 100;">
-                <div class="card-body p-4 text-center">
-                    <h3 class="fw-bold mb-1">Book Your Spot</h3>
-                    <p class="text-muted mb-4 small">Secure your ticket for this event</p>
+            <div class="card shadow border-0 animate-slide-up sticky-top" style="top: 100px; animation-delay: 0.1s; z-index: 100; border-radius: 24px;">
+                <div class="card-body p-4 p-md-5">
+                    <div class="text-center mb-4">
+                        <div class="bg-soft-primary d-inline-block p-4 rounded-circle mb-3">
+                            <i class="fas fa-ticket-alt text-primary fa-3x"></i>
+                        </div>
+                        <h2 class="fw-bold mb-1">Reserve a Spot</h2>
+                        <p class="text-muted small">Limited availability! Secure your ticket now.</p>
+                    </div>
                     
+                    <hr class="mb-4 opacity-25" />
+
                     @if (User.Identity.IsAuthenticated)
                     {
                         <form asp-controller="Booking" asp-action="Book" method="post">
                             <input type="hidden" name="eventId" value="@Model.Id" />
                             <div class="form-group mb-4">
-                                <label class="form-label text-start d-block fw-bold small">Number of Tickets</label>
-                                <div class="input-group input-group-lg border rounded">
-                                    <span class="input-group-text bg-white border-0"><i class="fas fa-users text-primary"></i></span>
-                                    <input type="number" name="quantity" class="form-control border-0 bg-white" value="1" min="1" max="10" />
+                                <div class="d-flex justify-content-between mb-2">
+                                    <label class="form-label fw-bold small">Quantity</label>
+                                    <span class="text-primary small fw-bold">Max 10 per person</span>
+                                </div>
+                                <div class="input-group input-group-lg border rounded-3 p-1">
+                                    <input type="number" name="quantity" class="form-control border-0 bg-transparent text-center fw-bold" value="1" min="1" max="10" />
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary btn-lg w-100 py-3 shadow-sm mb-3">
-                                <i class="fas fa-ticket-alt me-2"></i>Book Now
+                                Book My Ticket
                             </button>
                         </form>
                     }
                     else
                     {
-                        <div class="bg-light p-4 rounded-3 border mb-4">
-                            <p class="mb-3">Log in to book your tickets easily!</p>
-                            <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-primary w-100">Login to Book</a>
+                        <div class="bg-light p-4 rounded-4 text-center border mb-4">
+                            <p class="mb-4 small">Join the EventLink community to book tickets and manage your events.</p>
+                            <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-primary w-100 py-2">Sign In to Book</a>
                         </div>
                     }
-                    <div class="mt-2">
-                        <a asp-action="Index" class="text-secondary text-decoration-none small"><i class="fas fa-arrow-left me-2"></i>Back to Events</a>
+                    
+                    <div class="bg-soft-warning p-3 rounded-3 text-center mb-2" style="background: rgba(251, 191, 36, 0.1);">
+                        <p class="mb-0 small text-warning-emphasis"><i class="fas fa-shield-check me-2"></i>Secure Checkout & Confirmation</p>
                     </div>
                 </div>
+            </div>
+            
+            <div class="mt-4 text-center">
+                 @if (User.IsInRole("Admin") || User.IsInRole("Organizer"))
+                 {
+                    <a asp-action="Delete" asp-route-id="@Model?.Id" class="text-danger opacity-50 text-decoration-none small hover-opacity-100"><i class="fas fa-trash me-2"></i>Delete Event</a>
+                 }
             </div>
         </div>
     </div>
@@ -169,5 +200,8 @@
 
 <style>
     .bg-soft-primary { background: rgba(99,102,241,0.1); }
+    .bg-soft-warning { background: rgba(251, 191, 36, 0.1); }
     .last-no-border:last-child { border-bottom: none !important; }
+    .border-dashed { border-style: dashed !important; }
+    .hover-opacity-100:hover { opacity: 1 !important; }
 </style>

@@ -1,34 +1,58 @@
 @model EventBooking.Models.Venue
 
 @{
-    ViewData["Title"] = "Edit Venue";
+    ViewData["Title"] = "Update Venue";
 }
 
-<h1>Edit Venue</h1>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-5 col-md-7">
+            <div class="card shadow-lg border-0 animate-slide-up">
+                <div class="card-body p-4 p-md-5">
+                    <div class="text-center mb-5">
+                        <div class="bg-soft-primary d-inline-block p-3 rounded-circle mb-3">
+                            <i class="fas fa-edit text-primary fa-2x"></i>
+                        </div>
+                        <h2 class="fw-bold">Update Venue</h2>
+                        <p class="text-muted">Refining the details for <strong>@Model.Name</strong>.</p>
+                    </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group mb-3">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                    <form asp-action="Edit">
+                        <div asp-validation-summary="ModelOnly" class="text-danger small py-2"></div>
+                        <input type="hidden" asp-for="Id" />
+                        
+                        <div class="form-group mb-4">
+                            <label asp-for="Name" class="form-label fw-bold small">Venue Name</label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label asp-for="Address" class="form-label fw-bold small">Address</label>
+                            <input asp-for="Address" class="form-control" />
+                            <span asp-validation-for="Address" class="text-danger small"></span>
+                        </div>
+
+                        <div class="d-grid mt-5">
+                            <button type="submit" class="btn btn-primary btn-lg shadow">
+                                <i class="fas fa-save me-2"></i>Save Final Changes
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="text-center mt-4">
+                        <a asp-action="Index" class="text-muted text-decoration-none small"><i class="fas fa-undo me-2"></i>Discard changes</a>
+                    </div>
+                </div>
             </div>
-            <div class="form-group mb-3">
-                <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control" />
-                <span asp-validation-for="Address" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<style>
+    .bg-soft-primary { background: rgba(99,102,241,0.1); }
+</style>
