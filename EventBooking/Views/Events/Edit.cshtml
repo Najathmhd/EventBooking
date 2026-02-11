@@ -29,6 +29,16 @@
                         </div>
 
                         <div class="form-group mb-4">
+                            <label asp-for="ImageUrl" class="form-label fw-bold small text-muted text-uppercase tracking-wider">Promotional Image URL</label>
+                            <input asp-for="ImageUrl" class="form-control" placeholder="https://example.com/image.jpg" />
+                            <div class="form-text text-muted small">
+                                <i class="fas fa-info-circle me-1"></i>Must be a direct link to an image (ending in .jpg, .png, .webp). <br />
+                                <strong>Tip:</strong> Right-click an image on the web and select "Copy Image Address".
+                            </div>
+                            <span asp-validation-for="ImageUrl" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-group mb-4">
                             <label asp-for="Description" class="form-label fw-bold small">Description</label>
                             <textarea asp-for="Description" class="form-control" rows="4">@Model.Description</textarea>
                             <span asp-validation-for="Description" class="text-danger small"></span>

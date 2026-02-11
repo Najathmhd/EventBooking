@@ -109,6 +109,23 @@ namespace EventBooking.Controllers
             TempData["Success"] = "Booking successful!";
             return RedirectToAction(nameof(Index));
         }
+        // POST: /Booking/VerifyBooking
+        [HttpPost]
+        [Authorize(Roles = "Admin,Organizer")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> VerifyBooking(int id)
+        {
+            var booking = await _context.Bookings.FindAsync(id);
+            if (booking == null) return NotFound();
+
+            booking.IsVerified = true;
+            _context.Update(booking);
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = "Booking verification confirmed.";
+            return RedirectToAction(nameof(Index));
+        }
+
         // GET: /Booking/Ticket/5
         public async Task<IActionResult> Ticket(int id)
         {
@@ -180,6 +197,11 @@ namespace EventBooking.Controllers
             {
                 ViewBag.Status = "Expired";
                 ViewBag.Message = "This access pass has expired. The cultural event has already concluded.";
+            }
+            else if (!booking.IsVerified)
+            {
+                ViewBag.Status = "Pending";
+                ViewBag.Message = "Access Denied. This reservation has not yet been verified by the Metropolitan Administration.";
             }
             else
             {

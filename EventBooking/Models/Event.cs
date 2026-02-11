@@ -14,6 +14,8 @@ namespace EventBooking.Models
 
         public string? Description { get; set; }
 
+        public string? ImageUrl { get; set; }
+
         [Required]
         public DateTime EventDate { get; set; }
 

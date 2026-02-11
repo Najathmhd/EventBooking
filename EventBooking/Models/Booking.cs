@@ -22,6 +22,8 @@ namespace EventBooking.Models
         [Column(TypeName = "decimal(18,2)")]
         public decimal TotalPrice { get; set; }
 
+        public bool IsVerified { get; set; } = false;
+
         // 🔗 Foreign Keys
         [Required]
         public int MemberId { get; set; }
