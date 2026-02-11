@@ -5,18 +5,66 @@
 }
 
 <div class="container py-5">
-    <div class="d-flex justify-content-between align-items-end mb-5 animate-slide-up">
-        <div>
+    <div class="row align-items-end mb-5 animate-slide-up">
+        <div class="col-lg-6">
             <div class="accent-line mb-3"></div>
             <h1 class="display-4 fw-bold text-dark mb-0">Discover Experiences</h1>
-            <p class="lead text-muted">Join the vibrant metropolitan community at our verified cultural venues.</p>
+            <p class="lead text-muted mb-0">Join the vibrant metropolitan community at our verified cultural venues.</p>
         </div>
-        @if (User.IsInRole("Admin") || User.IsInRole("Organizer"))
-        {
-            <a asp-action="Create" class="btn btn-primary shadow-sm mb-2">
-                <i class="fas fa-plus-circle me-2"></i>Curate Event
-            </a>
-        }
+        <div class="col-lg-6 text-lg-end mt-4 mt-lg-0">
+            @if (User.IsInRole("Admin") || User.IsInRole("Organizer"))
+            {
+                <a asp-action="Create" class="btn btn-primary shadow-sm mb-2">
+                    <i class="fas fa-plus-circle me-2"></i>Curate Event
+                </a>
+            }
+        </div>
+    </div>
+
+    @* Search and Filter Section *@
+    <div class="card border-0 shadow-lg p-4 mb-5 animate-slide-up" style="background: var(--bg-card); border-radius: 24px; animation-delay: 0.1s;">
+        <form asp-action="Index" method="get">
+            <div class="row g-3 align-items-end">
+                <div class="col-md-3">
+                    <label class="form-label small fw-bold text-muted text-uppercase tracking-wider">Search Narrative</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-transparent border-0 ps-0 pe-2"><i class="fas fa-search text-primary"></i></span>
+                        <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" class="form-control border-0 bg-transparent text-white" placeholder="Finding events..." />
+                    </div>
+                    <div class="accent-line w-100" style="height: 1px; opacity: 0.2;"></div>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label small fw-bold text-muted text-uppercase tracking-wider">Category</label>
+                    <select name="categoryId" class="form-select border-0 bg-transparent text-white" asp-items="ViewBag.CategoryId">
+                        <option value="">All Disciplines</option>
+                    </select>
+                    <div class="accent-line w-100" style="height: 1px; opacity: 0.2;"></div>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label small fw-bold text-muted text-uppercase tracking-wider">Venue</label>
+                    <select name="venueId" class="form-select border-0 bg-transparent text-white" asp-items="ViewBag.VenueId">
+                        <option value="">All Locations</option>
+                    </select>
+                    <div class="accent-line w-100" style="height: 1px; opacity: 0.2;"></div>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label small fw-bold text-muted text-uppercase tracking-wider">From</label>
+                    <input type="date" name="startDate" value="@ViewData["StartDate"]" class="form-control border-0 bg-transparent text-white p-0" style="font-size: 0.9rem;" />
+                    <div class="accent-line w-100" style="height: 1px; opacity: 0.2;"></div>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label small fw-bold text-muted text-uppercase tracking-wider">To</label>
+                    <input type="date" name="endDate" value="@ViewData["EndDate"]" class="form-control border-0 bg-transparent text-white p-0" style="font-size: 0.9rem;" />
+                    <div class="accent-line w-100" style="height: 1px; opacity: 0.2;"></div>
+                </div>
+                <div class="col-md-2">
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary w-100 py-2">Filter</button>
+                        <a asp-action="Index" class="btn btn-soft p-2" title="Reset Discovery"><i class="fas fa-undo"></i></a>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
 
     @if (!Model.Any())

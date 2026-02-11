@@ -22,10 +22,45 @@ namespace EventBooking.Controllers
         }
 
         // GET: Events
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString, int? categoryId, int? venueId, DateTime? startDate, DateTime? endDate)
         {
-            var applicationDbContext = _context.Events.Include(e => e.Category).Include(e => e.Venue);
-            return View(await applicationDbContext.ToListAsync());
+            var eventsQuery = _context.Events
+                .Include(e => e.Category)
+                .Include(e => e.Venue)
+                .AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                eventsQuery = eventsQuery.Where(e => e.Title.Contains(searchString) || e.Description.Contains(searchString));
+            }
+
+            if (categoryId.HasValue)
+            {
+                eventsQuery = eventsQuery.Where(e => e.CategoryId == categoryId.Value);
+            }
+
+            if (venueId.HasValue)
+            {
+                eventsQuery = eventsQuery.Where(e => e.VenueId == venueId.Value);
+            }
+
+            if (startDate.HasValue)
+            {
+                eventsQuery = eventsQuery.Where(e => e.EventDate >= startDate.Value);
+            }
+
+            if (endDate.HasValue)
+            {
+                eventsQuery = eventsQuery.Where(e => e.EventDate <= endDate.Value);
+            }
+
+            ViewData["CategoryId"] = new SelectList(_context.EventCategories, "Id", "Name", categoryId);
+            ViewData["VenueId"] = new SelectList(_context.Venues, "Id", "Name", venueId);
+            ViewData["CurrentFilter"] = searchString;
+            ViewData["StartDate"] = startDate?.ToString("yyyy-MM-dd");
+            ViewData["EndDate"] = endDate?.ToString("yyyy-MM-dd");
+
+            return View(await eventsQuery.ToListAsync());
         }
 
         // GET: Events/Details/5
