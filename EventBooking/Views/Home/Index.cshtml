@@ -4,54 +4,54 @@
 
 <div class="hero-section position-relative overflow-hidden" style="background: linear-gradient(rgba(2, 6, 23, 0.8), rgba(2, 6, 23, 0.8)), url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=2070&auto=format&fit=crop') center/cover no-repeat !important;">
     <div class="container text-center py-5">
-        <h1 class="display-2 fw-bold mb-4 animate-slide-up">Connecting Communities <br /><span class="text-gradient">through Culture</span></h1>
+        <h1 class="display-2 fw-bold mb-4 animate-slide-up">Connecting Communities <br /><span class="text-gradient-animated">through Culture</span></h1>
         <p class="lead mb-5 animate-slide-up text-light opacity-90" style="animation-delay: 0.2s; max-width: 850px; margin: 0 auto; font-size: 1.4rem;">
             EventBooking is the metropolitan initiative designed to harmonize cultural management and provide seamless access to the city's most inspiring experiences.
         </p>
         <div class="d-flex justify-content-center gap-3 animate-slide-up" style="animation-delay: 0.4s">
-            <a asp-controller="Events" asp-action="Index" class="btn btn-primary btn-lg px-5 shadow-lg border-0 py-3">Discover Events</a>
-            <a href="#mission" class="btn btn-outline-light btn-lg px-5 py-3 blur-effect">Our Mission</a>
+            <a asp-controller="Events" asp-action="Index" class="btn btn-primary btn-lg px-5 shadow-lg border-0 py-3 hover-tilt">Discover Events</a>
+            <a href="#mission" class="btn btn-outline-light btn-lg px-5 py-3 blur-effect hover-tilt">Our Mission</a>
         </div>
     </div>
 </div>
 
 <div class="container mt-5 pt-5" id="mission">
-    <div class="row align-items-center mb-5 pb-5">
-        <div class="col-lg-6 mb-4 mb-lg-0 animate-slide-up">
-            <div class="accent-line"></div>
+    <div class="row align-items-center mb-5 pb-5 reveal">
+        <div class="col-lg-6 mb-4 mb-lg-0">
+            <div class="accent-line mb-3"></div>
             <h2 class="display-5 fw-bold mb-4">A Modern Gateway to Local Culture</h2>
             <p class="lead text-muted mb-4">
                 The EventBooking system focuses on core event management and ticket reservation functionalities suitable for a metropolitan cultural council. The system allows guests and registered members to browse upcoming events displayed with essential information, ensuring a structured and meaningful interaction through verified bookings and inquiries.
             </p>
             <div class="row g-4">
                 <div class="col-sm-6">
-                    <div class="d-flex align-items-center">
+                    <div class="d-flex align-items-center p-3 rounded-3 bg-light border hover-tilt">
                         <i class="fas fa-check-circle text-primary me-2"></i>
                         <span class="fw-bold">Seamless Booking</span>
                     </div>
                 </div>
                 <div class="col-sm-6">
-                    <div class="d-flex align-items-center">
+                    <div class="d-flex align-items-center p-3 rounded-3 bg-light border hover-tilt">
                         <i class="fas fa-check-circle text-primary me-2"></i>
                         <span class="fw-bold">Verified Venues</span>
                     </div>
                 </div>
                 <div class="col-sm-6">
-                    <div class="d-flex align-items-center">
+                    <div class="d-flex align-items-center p-3 rounded-3 bg-light border hover-tilt">
                         <i class="fas fa-check-circle text-primary me-2"></i>
                         <span class="fw-bold">Role-Based Access</span>
                     </div>
                 </div>
                 <div class="col-sm-6">
-                    <div class="d-flex align-items-center">
+                    <div class="d-flex align-items-center p-3 rounded-3 bg-light border hover-tilt">
                         <i class="fas fa-check-circle text-primary me-2"></i>
                         <span class="fw-bold">Community Reviews</span>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-lg-6 px-lg-5 animate-slide-up" style="animation-delay: 0.2s">
-            <div class="card bg-dark text-white border-0 shadow-lg overflow-hidden position-relative" style="min-height: 450px; background: url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=2069&auto=format&fit=crop') center/cover no-repeat !important;">
+        <div class="col-lg-6 px-lg-5">
+            <div class="card bg-dark text-white border-0 shadow-lg overflow-hidden position-relative hover-tilt" style="min-height: 450px; background: url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=2069&auto=format&fit=crop') center/cover no-repeat !important;">
                 <div class="card-img-overlay d-flex flex-column justify-content-end p-5" style="background: linear-gradient(to top, rgba(15,23,42,1) 0%, rgba(15,23,42,0.6) 50%, transparent 100%);">
                     <div class="mb-2">
                         <span class="badge bg-primary rounded-pill mb-2 px-3">Official Partner</span>
@@ -63,24 +63,24 @@
         </div>
     </div>
 
-<hr />
+<hr class="border-secondary opacity-25" />
 
 @if (TempData["Success"] != null)
 {
-    <div class="alert alert-success">@TempData["Success"]</div>
+    <div class="alert alert-success reveal">@TempData["Success"]</div>
 }
 @if (TempData["Error"] != null)
 {
-    <div class="alert alert-danger">@TempData["Error"]</div>
+    <div class="alert alert-danger reveal">@TempData["Error"]</div>
 }
 
-<div class="row mt-5 pt-5 pb-5" id="inquiry">
+<div class="row mt-5 pt-5 pb-5 reveal" id="inquiry">
     <div class="col-md-8 offset-md-2">
-        <div class="card shadow-lg border-0 p-4 p-md-5">
+        <div class="card card-glass border-0 p-4 p-md-5 hover-tilt">
             <div class="row align-items-center">
                 <div class="col-lg-5 mb-4 mb-lg-0">
                     <div class="mb-4">
-                        <div class="bg-soft-primary d-inline-block p-3 rounded-circle mb-3">
+                        <div class="bg-soft-primary d-inline-block p-3 rounded-circle mb-3 border border-light">
                             <i class="fas fa-paper-plane text-primary fa-2x"></i>
                         </div>
                         <h3 class="fw-bold">General Inquiries</h3>
@@ -96,20 +96,20 @@
                     </div>
                 </div>
                 <div class="col-lg-7">
-                    <form asp-controller="Inquiry" asp-action="Submit" method="post" class="p-4 rounded-4" style="background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border);">
+                    <form asp-controller="Inquiry" asp-action="Submit" method="post" class="p-4 rounded-4" style="background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border);">
                         <div class="form-group mb-3">
-                            <label class="form-label small fw-bold">Full Name</label>
+                            <label class="form-label small fw-bold text-muted">Full Name</label>
                             <input name="Name" class="form-control border-0" placeholder="John Doe" required />
                         </div>
                         <div class="form-group mb-3">
-                            <label class="form-label small fw-bold">Email Address</label>
+                            <label class="form-label small fw-bold text-muted">Email Address</label>
                             <input name="Email" type="email" class="form-control border-0" placeholder="john@example.com" required />
                         </div>
                         <div class="form-group mb-3">
-                            <label class="form-label small fw-bold">Message</label>
+                            <label class="form-label small fw-bold text-muted">Message</label>
                             <textarea name="Message" class="form-control border-0" rows="3" placeholder="How can our team assist you?" required></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100 py-3 mt-2 shadow-sm">Submit Inquiry</button>
+                        <button type="submit" class="btn btn-primary w-100 py-3 mt-2 shadow-sm hover-tilt">Submit Inquiry</button>
                     </form>
                 </div>
             </div>

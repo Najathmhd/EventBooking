@@ -7,8 +7,8 @@
 
 <div class="container py-5 mt-4">
     <div class="row">
-        <div class="col-lg-8 mb-4">
-            <div class="card shadow-sm border-0 animate-slide-up overflow-hidden">
+        <div class="col-lg-8 mb-4 reveal">
+            <div class="card shadow-sm border-0 animate-slide-up overflow-hidden hover-tilt">
                 <div class="card-body p-0">
                     <div class="p-4 p-md-5" style="background: var(--dark-bg); color: white; position: relative; min-height: 350px; display: flex; flex-direction: column; justify-content: center;">
                          <div style="position: absolute; top:0; right:0; opacity: 0.05; font-size: 15rem; pointer-events: none; transform: translate(20%, -20%)">
@@ -48,7 +48,7 @@
                             @Model.Description
                         </div>
 
-                        <div class="mt-5 p-4 rounded-4 d-flex align-items-center" style="background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border);">
+                        <div class="mt-5 p-4 rounded-4 d-flex align-items-center hover-tilt" style="background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border);">
                             <div class="me-4">
                                 <img src="https://ui-avatars.com/api/?name=@(Model.CreatedBy ?? "Curator")&background=0f172a&color=fff&bold=true" class="rounded-circle shadow-sm" width="60" alt="Curator" />
                             </div>
@@ -64,8 +64,8 @@
             @* Reviews and Booking follow... kept logic but refined copy in UI *@
         </div>
 
-        <div class="col-lg-4">
-            <div class="card shadow border-0 animate-slide-up sticky-top" style="top: 120px; animation-delay: 0.1s; border-radius: 28px;">
+        <div class="col-lg-4 reveal">
+            <div class="card shadow border-0 animate-slide-up sticky-top hover-tilt" style="top: 120px; animation-delay: 0.1s; border-radius: 28px;">
                 <div class="card-body p-4 p-md-5 text-center">
                     <div class="bg-soft-primary d-inline-block p-4 rounded-circle mb-4">
                         <i class="fas fa-ticket text-primary fa-3x"></i>

@@ -286,3 +286,74 @@ section[id^="external"],
 #registerForm {
     animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
+
+/* =========================================
+   UNIQUE UI COMPONENTS (Metropolitan Polish)
+   ========================================= */
+
+/* 1. Cinematic Scroll Reveal */
+.reveal {
+    position: relative;
+    transform: translateY(50px);
+    opacity: 0;
+    transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+}
+
+.reveal.active {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* 2. 3D Holographic Tilt Effect */
+.hover-tilt {
+    transition: transform 0.1s ease-out;
+    /* Super fast for mouse tracking */
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    will-change: transform;
+}
+
+/* Add depth to children when tilted */
+.hover-tilt>* {
+    transform: translateZ(20px);
+    /* pointer-events: none; */
+    /* Optional: if buttons inside break */
+}
+
+/* 3. Living Gradient Text */
+.text-gradient-animated {
+    background: linear-gradient(-45deg,
+            #6366f1,
+            #a855f7,
+            #ec4899,
+            #3b82f6);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientFlow 6s ease infinite;
+    font-weight: 800;
+}
+
+@keyframes gradientFlow {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* 4. Glassmorphism Card Variant */
+.card-glass {
+    background: rgba(30, 41, 59, 0.4) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
