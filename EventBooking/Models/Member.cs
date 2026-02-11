@@ -19,6 +19,9 @@ namespace EventBooking.Models
         [Required]
         public string PhoneNumber { get; set; } = string.Empty;
 
+        // Interest Preferences (e.g. "Music, Theatre")
+        public string? Preferences { get; set; }
+
         // Link to Identity User
         public string? UserId { get; set; }
 

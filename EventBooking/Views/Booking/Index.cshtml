@@ -83,6 +83,50 @@
                                 <a asp-controller="Booking" asp-action="Ticket" asp-route-id="@item.BookingId" class="btn btn-primary rounded-pill shadow-sm">
                                     View Digital Pass <i class="fas fa-qrcode ms-2"></i>
                                 </a>
+                                
+                                @if (item.Event?.EventDate < DateTime.Now && item.IsVerified)
+                                {
+                                    <button type="button" class="btn btn-outline-secondary rounded-pill shadow-sm" data-bs-toggle="modal" data-bs-target="#reviewModal-@item.EventId">
+                                        Leave Review <i class="fas fa-star ms-2"></i>
+                                    </button>
+                                    
+                                    <!-- Review Modal -->
+                                    <div class="modal fade" id="reviewModal-@item.EventId" tabindex="-1" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header border-0">
+                                                    <h5 class="modal-title fw-bold">Review @item.Event?.Title</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <form asp-controller="Reviews" asp-action="Submit" method="post">
+                                                    <div class="modal-body">
+                                                        <input type="hidden" name="eventId" value="@item.EventId" />
+                                                        <div class="mb-3 text-center">
+                                                            <label class="form-label small fw-bold text-muted">Rating</label>
+                                                            <div class="rating-select h3 text-warning">
+                                                                <i class="far fa-star" data-val="1" onclick="setRating(this, 1)"></i>
+                                                                <i class="far fa-star" data-val="2" onclick="setRating(this, 2)"></i>
+                                                                <i class="far fa-star" data-val="3" onclick="setRating(this, 3)"></i>
+                                                                <i class="far fa-star" data-val="4" onclick="setRating(this, 4)"></i>
+                                                                <i class="far fa-star" data-val="5" onclick="setRating(this, 5)"></i>
+                                                            </div>
+                                                            <input type="hidden" name="rating" id="ratingInput-@item.EventId" value="5" />
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label class="form-label small fw-bold text-muted">Your Thoughts</label>
+                                                            <textarea name="comment" class="form-control" rows="3" required></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer border-0">
+                                                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-primary">Submit Feedback</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
                                 @if (User.IsInRole("Admin") && !item.IsVerified)
                                 {
                                     <form asp-action="VerifyBooking" method="post" class="d-grid">
@@ -110,3 +154,22 @@
 <style>
     .reservation-card:hover { transform: translateY(-5px); }
 </style>
+
+<script>
+    function setRating(element, rating) {
+        const parent = element.parentElement;
+        const inputId = parent.nextElementSibling.id; // ratingInput-ID
+        document.getElementById(inputId).value = rating;
+        
+        const stars = parent.querySelectorAll('i');
+        stars.forEach((star, index) => {
+            if (index < rating) {
+                star.classList.remove('far');
+                star.classList.add('fas');
+            } else {
+                star.classList.remove('fas');
+                star.classList.add('far');
+            }
+        });
+    }
+</script>

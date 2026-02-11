@@ -26,7 +26,20 @@ namespace EventBooking.Controllers
 
             if (member == null && !User.IsInRole("Admin"))
             {
-                return NotFound("Member profile not found.");
+                // Auto-create member profile if it doesn't exist (e.g. new registration)
+                member = new Member
+                {
+                    FullName = User.Identity?.Name?.Split('@')[0] ?? "New Citizen",
+                    Email = User.Identity?.Name ?? "unknown@eventbooking.com",
+                    PhoneNumber = "0000000000",
+                    UserId = userId ?? string.Empty
+                };
+                
+                _context.Members.Add(member);
+                await _context.SaveChangesAsync();
+                
+                // Re-fetch
+                member = await _context.Members.FirstOrDefaultAsync(m => m.UserId == userId);
             }
 
             var bookingsQuery = _context.Bookings
@@ -75,22 +88,31 @@ namespace EventBooking.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            // Prevent double booking for the same event by the same member
-            var existingBooking = await _context.Bookings
-                .FirstOrDefaultAsync(b => b.EventId == eventId && b.MemberId == member.MemberId);
-
-            if (existingBooking != null)
-            {
-                TempData["Error"] = "You have already booked this event.";
-                return RedirectToAction("Details", "Events", new { id = eventId });
-            }
-
-            var @event = await _context.Events.FindAsync(eventId);
+            var @event = await _context.Events
+                .Include(e => e.Bookings)
+                .FirstOrDefaultAsync(e => e.Id == eventId);
+            
             if (@event == null) return NotFound();
 
             if (@event.EventDate < DateTime.Now)
             {
                 TempData["Error"] = "Cannot book past events.";
+                return RedirectToAction("Details", "Events", new { id = eventId });
+            }
+
+            // Check capacity (Strict Enforcement)
+            int bookedSeats = @event.Bookings.Sum(b => b.TicketQuantity);
+            int remainingSeats = @event.Capacity - bookedSeats;
+
+            if (quantity > remainingSeats)
+            {
+                TempData["Error"] = $"Only {remainingSeats} seats available. Please reduce your ticket quantity.";
+                return RedirectToAction("Details", "Events", new { id = eventId });
+            }
+
+            if (remainingSeats <= 0)
+            {
+                TempData["Error"] = "This event is fully booked.";
                 return RedirectToAction("Details", "Events", new { id = eventId });
             }
 

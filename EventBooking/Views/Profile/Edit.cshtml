@@ -1,0 +1,64 @@
+@model EventBooking.Models.Member
+
+@{
+    ViewData["Title"] = "Edit Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow-lg border-0 animate-slide-up">
+                <div class="card-body p-4 p-md-5">
+                    <div class="text-center mb-5">
+                        <div class="bg-soft-primary d-inline-block p-3 rounded-circle mb-3">
+                            <i class="fas fa-user-edit text-primary fa-2x"></i>
+                        </div>
+                        <h2 class="fw-bold">Your Citizen Profile</h2>
+                        <p class="text-muted">Update your preferences to get tailored recommendations.</p>
+                    </div>
+
+                    <form asp-action="Edit">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger border-0 small py-2"></div>
+                        <input type="hidden" asp-for="MemberId" />
+                        <input type="hidden" asp-for="UserId" />
+                        <input type="hidden" asp-for="Email" /> <!-- Email is managed by Identity, likely readonly here -->
+
+                        <div class="form-group mb-4">
+                            <label asp-for="FullName" class="form-label fw-bold small">Full Name</label>
+                            <input asp-for="FullName" class="form-control" />
+                            <span asp-validation-for="FullName" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label asp-for="PhoneNumber" class="form-label fw-bold small">Phone Number</label>
+                            <input asp-for="PhoneNumber" class="form-control" />
+                            <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label asp-for="Preferences" class="form-label fw-bold small">Interests & Preferences</label>
+                            <textarea asp-for="Preferences" class="form-control" rows="3" placeholder="e.g. Jazz, Modern Art, Football..."></textarea>
+                            <div class="form-text text-muted small">Comma-separated topics you enjoy.</div>
+                            <span asp-validation-for="Preferences" class="text-danger small"></span>
+                        </div>
+
+                        <div class="d-grid mt-5">
+                            <button type="submit" class="btn btn-primary btn-lg py-3 shadow">
+                                <i class="fas fa-save me-2"></i>Save Changes
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="text-center mt-4">
+                        <a asp-controller="Home" asp-action="Index" class="text-muted text-decoration-none small"><i class="fas fa-arrow-left me-2"></i>Back to Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

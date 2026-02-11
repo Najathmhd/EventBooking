@@ -21,7 +21,7 @@ namespace EventBooking.Controllers
         }
 
         // GET: Events
-        public async Task<IActionResult> Index(string searchString, int? categoryId, int? venueId, DateTime? startDate, DateTime? endDate)
+        public async Task<IActionResult> Index(string searchString, int? categoryId, int? venueId, DateTime? startDate, DateTime? endDate, decimal? minPrice, decimal? maxPrice)
         {
             var eventsQuery = _context.Events
                 .Include(e => e.Category)
@@ -53,11 +53,23 @@ namespace EventBooking.Controllers
                 eventsQuery = eventsQuery.Where(e => e.EventDate <= endDate.Value);
             }
 
+            if (minPrice.HasValue)
+            {
+                eventsQuery = eventsQuery.Where(e => e.Price >= minPrice.Value);
+            }
+
+            if (maxPrice.HasValue)
+            {
+                eventsQuery = eventsQuery.Where(e => e.Price <= maxPrice.Value);
+            }
+
             ViewData["CategoryId"] = new SelectList(_context.EventCategories, "Id", "Name", categoryId);
             ViewData["VenueId"] = new SelectList(_context.Venues, "Id", "Name", venueId);
             ViewData["CurrentFilter"] = searchString;
             ViewData["StartDate"] = startDate?.ToString("yyyy-MM-dd");
             ViewData["EndDate"] = endDate?.ToString("yyyy-MM-dd");
+            ViewData["MinPrice"] = minPrice;
+            ViewData["MaxPrice"] = maxPrice;
 
             return View(await eventsQuery.ToListAsync());
         }
@@ -73,11 +85,21 @@ namespace EventBooking.Controllers
             var @event = await _context.Events
                 .Include(e => e.Category)
                 .Include(e => e.Venue)
+                .Include(e => e.Bookings) // Include bookings to calculate capacity
+                .Include(e => e.Reviews).ThenInclude(r => r.Member) // Include reviews
                 .FirstOrDefaultAsync(m => m.Id == id);
+            
             if (@event == null)
             {
                 return NotFound();
             }
+
+            // Calculate Availability
+            int bookedCount = @event.Bookings.Sum(b => b.TicketQuantity);
+            int remainingCapacity = @event.Capacity - bookedCount;
+            
+            ViewData["RemainingCapacity"] = remainingCapacity;
+            ViewData["IsFull"] = remainingCapacity <= 0;
 
             return View(@event);
         }

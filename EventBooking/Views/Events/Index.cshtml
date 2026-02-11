@@ -48,20 +48,26 @@
                     <div class="accent-line w-100" style="height: 1px; opacity: 0.2;"></div>
                 </div>
                 <div class="col-md-2">
-                    <label class="form-label small fw-bold text-muted text-uppercase tracking-wider">From</label>
-                    <input type="date" name="startDate" value="@ViewData["StartDate"]" class="form-control border-0 bg-transparent text-white p-0" style="font-size: 0.9rem;" />
-                    <div class="accent-line w-100" style="height: 1px; opacity: 0.2;"></div>
+                    <label class="form-label small fw-bold text-muted">From</label>
+                    <input type="date" name="startDate" class="form-control shadow-sm" value="@ViewData["StartDate"]" />
                 </div>
                 <div class="col-md-2">
-                    <label class="form-label small fw-bold text-muted text-uppercase tracking-wider">To</label>
-                    <input type="date" name="endDate" value="@ViewData["EndDate"]" class="form-control border-0 bg-transparent text-white p-0" style="font-size: 0.9rem;" />
-                    <div class="accent-line w-100" style="height: 1px; opacity: 0.2;"></div>
+                    <label class="form-label small fw-bold text-muted">To</label>
+                    <input type="date" name="endDate" class="form-control shadow-sm" value="@ViewData["EndDate"]" />
                 </div>
                 <div class="col-md-2">
-                    <div class="d-flex gap-2">
-                        <button type="submit" class="btn btn-primary w-100 py-2">Filter</button>
-                        <a asp-action="Index" class="btn btn-soft p-2" title="Reset Discovery"><i class="fas fa-undo"></i></a>
-                    </div>
+                    <label class="form-label small fw-bold text-muted">Min Price</label>
+                    <input type="number" name="minPrice" class="form-control shadow-sm" placeholder="£0" value="@ViewData["MinPrice"]" />
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label small fw-bold text-muted">Max Price</label>
+                    <input type="number" name="maxPrice" class="form-control shadow-sm" placeholder="£1000" value="@ViewData["MaxPrice"]" />
+                </div>
+                <div class="col-md-12 text-end mt-3">
+                    <button type="submit" class="btn btn-primary px-4 shadow-sm">
+                        <i class="fas fa-filter me-2"></i>Filter
+                    </button>
+                    <a asp-action="Index" class="btn btn-outline-secondary px-4 shadow-sm ms-2">Reset</a>
                 </div>
             </div>
         </form>

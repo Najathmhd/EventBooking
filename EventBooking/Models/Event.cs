@@ -41,6 +41,10 @@ namespace EventBooking.Models
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; } = 0;
 
+        [Required]
+        [Range(1, 100000)]
+        public int Capacity { get; set; } = 100;
+
         // Navigation
         public ICollection<Booking> Bookings { get; set; } = new List<Booking>();
         public ICollection<Review> Reviews { get; set; } = new List<Review>();
