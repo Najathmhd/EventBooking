@@ -1,0 +1,156 @@
+@model EventBooking.Models.Booking
+
+@{
+    ViewData["Title"] = "Digital Metropolitan Ticket";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-5 mt-5 d-flex justify-content-center">
+    <div class="ticket-wrapper animate-fade-in" style="width: 100%; max-width: 800px;">
+        
+        @* Actions Bar (Hidden on Print) *@
+        <div class="d-flex justify-content-between align-items-center mb-4 d-print-none">
+            <a asp-action="Index" class="btn btn-soft"><i class="fas fa-arrow-left me-2"></i>Back to Wallet</a>
+            <button onclick="window.print()" class="btn btn-primary shadow"><i class="fas fa-print me-2"></i>Export as Document (PDF)</button>
+        </div>
+
+        <div class="ticket-canvas bg-white text-dark shadow-lg overflow-hidden" style="border-radius: 32px; border: 2px solid #e2e8f0;">
+            @* Header Section *@
+            <div class="p-5 text-white position-relative" style="background: var(--primary-gradient);">
+                <div class="d-flex justify-content-between align-items-start position-relative" style="z-index: 2;">
+                    <div>
+                        <div class="accent-line bg-white mb-3" style="width: 60px;"></div>
+                        <h5 class="text-uppercase tracking-widest opacity-75 small mb-1">Metropolitan Cultural Council</h5>
+                        <h1 class="display-4 fw-bold mb-0">OFFICIAL ACCESS PASS</h1>
+                    </div>
+                    <div class="text-end">
+                        <div class="fw-bold h4 mb-0">#EB-@Model.BookingId.ToString("D6")</div>
+                        <div class="small opacity-75">RESERVATION REFERENCE</div>
+                    </div>
+                </div>
+                @* Decoration *@
+                <div class="position-absolute" style="top: -20%; right: -10%; font-size: 20rem; opacity: 0.1; pointer-events: none;">
+                    <i class="fas fa-landmark"></i>
+                </div>
+            </div>
+
+            @* Body Section *@
+            <div class="p-5">
+                <div class="row g-5">
+                    <div class="col-md-7">
+                        <div class="mb-5">
+                            <label class="small text-muted text-uppercase tracking-wider d-block mb-1">Cultural Event Narrative</label>
+                            <h2 class="fw-bold mb-2">@Model.Event?.Title</h2>
+                            <span class="badge bg-primary rounded-pill px-3 py-2">@Model.Event?.Category?.Name</span>
+                        </div>
+
+                        <div class="row g-4 mb-5">
+                            <div class="col-6">
+                                <label class="small text-muted text-uppercase tracking-wider d-block mb-1">Scheduled Date</label>
+                                <div class="fw-bold fs-5">@Model.Event?.EventDate.ToString("MMMM dd, yyyy")</div>
+                                <div class="small text-muted">@Model.Event?.EventDate.ToString("t") Metropolitan Standard Time</div>
+                            </div>
+                            <div class="col-6">
+                                <label class="small text-muted text-uppercase tracking-wider d-block mb-1">Venue Identity</label>
+                                <div class="fw-bold fs-5">@Model.Event?.Venue?.Name</div>
+                                <div class="small text-muted">Verified Cultural Location</div>
+                            </div>
+                        </div>
+
+                         <div>
+                             <label class="small text-muted text-uppercase tracking-wider d-block mb-1">Citizen Information</label>
+                             <h4 class="fw-bold mb-0">@Model.Member?.FullName</h4>
+                             <div class="text-muted">@Model.Member?.Email</div>
+                             <div class="mt-3 p-3 bg-light rounded-3 border">
+                                 <div class="d-flex justify-content-between align-items-center mb-1">
+                                     <span class="small text-uppercase fw-bold text-muted">Ticket Value:</span>
+                                     <span class="fw-bold">£@Model.Event?.Price.ToString("F2")</span>
+                                 </div>
+                                 <div class="d-flex justify-content-between align-items-center mb-1">
+                                     <span class="small text-uppercase fw-bold text-muted">Allocated Passes:</span>
+                                     <span class="fw-bold">@Model.TicketQuantity</span>
+                                 </div>
+                                 <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                                     <span class="small text-uppercase fw-bold">Total Investment:</span>
+                                     <span class="h4 mb-0 fw-bold text-primary">£@Model.TotalPrice.ToString("F2")</span>
+                                 </div>
+                             </div>
+                         </div>
+                    </div>
+
+                    <div class="col-md-5 border-start ps-5 d-flex flex-column align-items-center justify-content-center">
+                        <div class="bg-white p-3 rounded-3 shadow-sm d-inline-block">
+                            @{
+                                // Secure JSON Payload for QR
+                                var verifyUrl = Url.Action("Verify", "Booking", new { token = Model.TicketCode }, Context.Request.Scheme);
+                                var qrPayload = new {
+                                    Event = Model.Event?.Title,
+                                    Ticket = Model.TicketCode,
+                                    Holder = Model.Member?.FullName,
+                                    Verify = verifyUrl
+                                };
+                                var qrJson = System.Text.Json.JsonSerializer.Serialize(qrPayload);
+                                // URL Encode for API
+                                var qrCodeUrl = $"https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={System.Web.HttpUtility.UrlEncode(qrJson)}";
+                            }
+                            <img src="@qrCodeUrl" alt="Secure Digital Token" class="img-fluid" width="150" height="150" />
+                            <div class="mt-2 small text-muted font-monospace" style="font-size: 0.7rem;">
+                                Token: @Model.TicketCode.ToString().Substring(0, 8)...
+                            </div>
+                        </div>
+                        <div class="mt-3 small fw-bold opacity-50">SCAN FOR VERIFICATION</div>
+                        <div class="text-center mt-4">
+                            <i class="fas fa-shield-check text-primary fa-2x mb-2"></i>
+                            <div class="small fw-bold">METROPOLITAN CERTIFIED</div>
+                            <div class="text-muted" style="font-size: 0.7rem;">ISSUED ON @Model.BookingDate.ToString("g")</div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="my-5" />
+
+                <div class="terms-section px-3">
+                    <h6 class="fw-bold text-uppercase tracking-wider mb-3"><i class="fas fa-file-contract me-2 text-primary"></i>Metropolitan Terms & Conditions</h6>
+                    <ol class="small text-muted ps-3" style="font-size: 0.75rem; color: #64748b !important;">
+                        <li class="mb-2">This pass provides authorized access to the specified cultural event for the allocated volume of citizens.</li>
+                        <li class="mb-2">Citizens must present this document (digital or physical) at the metropolitan venue for curator verification.</li>
+                        <li class="mb-2">The Metropolitan Cultural Council reserves the right to revoke access if institutional standards are violated.</li>
+                        <li class="mb-2">This pass is non-transferable and tied to the verified citizen identity documented above.</li>
+                        <li>For inquiries, please contact the Metropolitan Administration through the official inquiry portal.</li>
+                    </ol>
+                </div>
+            </div>
+
+            @* Footer Section *@
+            <div class="bg-light p-4 text-center border-top">
+                <div class="small fw-bold text-muted text-uppercase tracking-widest">
+                    EventBooking Metropolitan System &copy; @DateTime.Now.Year - Connecting Communities through Culture
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .tracking-widest { letter-spacing: 0.25em; }
+    .tracking-wider { letter-spacing: 0.15em; }
+    
+    @@media print {
+        body { background: white !important; color: black !important; }
+        .hero-section, .navbar, .footer, .d-print-none { display: none !important; }
+        .container { width: 100% !important; max-width: none !important; padding: 0 !important; margin: 0 !important; }
+        .ticket-wrapper { max-width: none !important; width: 100% !important; }
+        .ticket-canvas { border: none !important; box-shadow: none !important; border-radius: 0 !important; }
+        .bg-card { background: white !important; }
+        .text-white { color: black !important; }
+        .badge { border: 1px solid #ccc !important; color: black !important; background: transparent !important; }
+        .accent-line { background: black !important; }
+        .bg-light { background: #f8fafc !important; }
+        
+        /* Ensure gradients show up somewhat in print or use flat colors */
+        .p-5[style*="background: var(--primary-gradient)"] {
+            background: #020617 !important;
+            -webkit-print-color-adjust: exact;
+        }
+    }
+</style>

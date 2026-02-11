@@ -33,17 +33,24 @@
                         </li>
                         @if (User.IsInRole("Admin"))
                         {
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="EventCategory" asp-action="Index">Categories</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Venue" asp-action="Index">Venues</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Administration
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="adminDropdown">
+                                    <li><a class="dropdown-item" asp-controller="Events" asp-action="Index">Manage Events</a></li>
+                                    <li><a class="dropdown-item" asp-controller="EventCategory" asp-action="Index">Manage Categories</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Venue" asp-action="Index">Manage Venues</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" asp-controller="Members" asp-action="Index">Citizen Registry</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Booking" asp-action="Index">Global Reservations</a></li>
+                                </ul>
                             </li>
                         }
-                        @if (User.IsInRole("Member"))
+                        @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Booking" asp-action="Index">My Bookings</a>
+                                <a class="nav-link" asp-area="" asp-controller="Booking" asp-action="Index">@(User.IsInRole("Admin") ? "Global Reservations" : "My Bookings")</a>
                             </li>
                         }
                     </ul>

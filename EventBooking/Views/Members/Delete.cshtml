@@ -1,0 +1,47 @@
+@model EventBooking.Models.Member
+
+@{
+    ViewData["Title"] = "Confirm Banishment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-5 mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-lg text-center p-5" style="border-radius: 28px;">
+                <div class="mb-4">
+                    <div class="bg-danger bg-opacity-10 text-danger d-inline-block p-4 rounded-circle">
+                        <i class="fas fa-exclamation-triangle fa-3x"></i>
+                    </div>
+                </div>
+                
+                <h2 class="fw-bold text-danger mb-3">Revoke Citizenship?</h2>
+                <p class="text-muted mb-4">
+                    Are you sure you want to delete the profile for <strong>@Model.FullName</strong>? 
+                    <br/>This action cannot be undone and will remove all associated bookings.
+                </p>
+
+                <div class="card bg-light border-0 p-3 mb-4 text-start">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="small text-uppercase fw-bold text-muted">Email</span>
+                        <span class="fw-bold">@Model.Email</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span class="small text-uppercase fw-bold text-muted">Join Date</span>
+                        <span class="fw-bold">Today</span> @* Timestamp not stored in Member model currently *@
+                    </div>
+                </div>
+
+                <form asp-action="Delete">
+                    <input type="hidden" asp-for="MemberId" />
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-danger btn-lg rounded-pill shadow-sm">
+                            <i class="fas fa-gavel me-2"></i>Execute Banishment
+                        </button>
+                        <a asp-action="Index" class="btn btn-soft rounded-pill">Cancel Operation</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

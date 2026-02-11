@@ -34,6 +34,11 @@ namespace EventBooking.Models
         // 🔹 Auth user who created event
         public string? CreatedBy { get; set; }
 
+        [Required]
+        [Range(0, 10000)]
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal Price { get; set; } = 0;
+
         // Navigation
         public ICollection<Booking> Bookings { get; set; } = new List<Booking>();
         public ICollection<Review> Reviews { get; set; } = new List<Review>();

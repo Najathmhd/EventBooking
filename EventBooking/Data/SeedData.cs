@@ -76,6 +76,20 @@ namespace EventBooking.Data
                 await userManager.DeleteAsync(oldAdminUser);
                 await context.SaveChangesAsync();
             }
+
+            // 🔹 Auto-Price Update for Existing Metropolitan Events
+            // Ensures the discovery hub looks premium by assigning value to legacy events.
+            var premiumEvents = context.Events.Where(e => e.Price == 0).ToList();
+            if (premiumEvents.Any())
+            {
+                var random = new Random();
+                foreach (var evt in premiumEvents)
+                {
+                    // Assign a "premium" price between £35 and £150
+                    evt.Price = random.Next(7, 31) * 5; 
+                }
+                await context.SaveChangesAsync();
+            }
         }
     }
 }

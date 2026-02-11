@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace EventBooking.Controllers
 {
-    [Authorize]
     public class EventsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -94,7 +93,7 @@ namespace EventBooking.Controllers
         [Authorize(Roles = "Admin,Organizer")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Description,EventDate,VenueId,CategoryId")] Event @event)
+        public async Task<IActionResult> Create([Bind("Id,Title,Description,EventDate,VenueId,CategoryId,Price")] Event @event)
         {
             if (ModelState.IsValid)
             {
@@ -133,7 +132,7 @@ namespace EventBooking.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,EventDate,VenueId,CategoryId")] Event @event)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,EventDate,VenueId,CategoryId,Price")] Event @event)
         {
             if (id != @event.Id)
             {

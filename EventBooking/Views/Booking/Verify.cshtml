@@ -1,0 +1,73 @@
+@model EventBooking.Models.Booking
+
+@{
+    ViewData["Title"] = "Metropolitan Verification Registry";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string status = ViewBag.Status ?? "Unknown";
+}
+
+<div class="container py-5 mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-lg animate-fade-in" style="border-radius: 28px; background: var(--bg-card);">
+                <div class="card-body p-5 text-center">
+                    <div class="accent-line mx-auto mb-4"></div>
+                    
+                    @if (status == "Valid")
+                    {
+                        <div class="bg-success bg-opacity-10 text-success d-inline-block p-4 rounded-circle mb-4 border border-success border-opacity-25">
+                            <i class="fas fa-check-double fa-4x"></i>
+                        </div>
+                        <h2 class="fw-bold text-success mb-2">ACCESS GRANTED</h2>
+                    }
+                    else if (status == "Expired")
+                    {
+                        <div class="bg-warning bg-opacity-10 text-warning d-inline-block p-4 rounded-circle mb-4 border border-warning border-opacity-25">
+                            <i class="fas fa-clock-history fa-4x"></i>
+                        </div>
+                        <h2 class="fw-bold text-warning mb-2">PASS EXPIRED</h2>
+                    }
+                    else
+                    {
+                        <div class="bg-danger bg-opacity-10 text-danger d-inline-block p-4 rounded-circle mb-4 border border-danger border-opacity-25">
+                            <i class="fas fa-shield-xmark fa-4x"></i>
+                        </div>
+                        <h2 class="fw-bold text-danger mb-2">INVALID PASS</h2>
+                    }
+
+                    <p class="lead text-muted mb-5">@ViewBag.Message</p>
+
+                    @if (Model != null)
+                    {
+                        <div class="text-start p-4 rounded-4 mb-4" style="background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border);">
+                            <div class="row mb-3">
+                                <div class="col-5 text-muted small text-uppercase">Citizen</div>
+                                <div class="col-7 fw-bold text-white">@Model.Member?.FullName</div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-5 text-muted small text-uppercase">Event</div>
+                                <div class="col-7 fw-bold text-white">@Model.Event?.Title</div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-5 text-muted small text-uppercase">Quantity</div>
+                                <div class="col-7 fw-bold text-white">@Model.TicketQuantity Pass@(Model.TicketQuantity > 1 ? "es" : "")</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5 text-muted small text-uppercase">Booking Ref</div>
+                                <div class="col-7 text-primary font-monospace">#EB-@Model.BookingId.ToString("D6")</div>
+                            </div>
+                        </div>
+                    }
+
+                    <div class="d-grid gap-2">
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-soft py-3 rounded-pill">Return to Dashboard</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-4 text-center opacity-50 small">
+                <i class="fas fa-user-shield me-2"></i>Official Curator Verification Session
+            </div>
+        </div>
+    </div>
+</div>

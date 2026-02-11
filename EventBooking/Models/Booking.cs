@@ -10,10 +10,17 @@ namespace EventBooking.Models
         public int BookingId { get; set; }
 
         [Required]
+        public Guid TicketCode { get; set; } = Guid.NewGuid();
+
+        [Required]
         public DateTime BookingDate { get; set; }
 
         [Required]
         public int TicketQuantity { get; set; }
+        [Required]
+        [Range(0, 100000)]
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal TotalPrice { get; set; }
 
         // 🔗 Foreign Keys
         [Required]

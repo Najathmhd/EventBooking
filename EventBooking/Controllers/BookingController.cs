@@ -99,7 +99,8 @@ namespace EventBooking.Controllers
                 EventId = eventId,
                 MemberId = member.MemberId,
                 BookingDate = DateTime.Now,
-                TicketQuantity = quantity
+                TicketQuantity = quantity,
+                TotalPrice = @event.Price * quantity
             };
 
             _context.Bookings.Add(booking);
@@ -107,6 +108,86 @@ namespace EventBooking.Controllers
 
             TempData["Success"] = "Booking successful!";
             return RedirectToAction(nameof(Index));
+        }
+        // GET: /Booking/Ticket/5
+        public async Task<IActionResult> Ticket(int id)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var member = await _context.Members.FirstOrDefaultAsync(m => m.UserId == userId);
+
+            if (member == null && !User.IsInRole("Admin"))
+            {
+                return NotFound("Member profile not found.");
+            }
+
+            var booking = await _context.Bookings
+                .Include(b => b.Event)
+                    .ThenInclude(e => e!.Venue)
+                .Include(b => b.Event)
+                    .ThenInclude(e => e!.Category)
+                .Include(b => b.Member)
+                .FirstOrDefaultAsync(b => b.BookingId == id);
+
+            if (booking == null) return NotFound();
+
+            // Security check: only owner or admin can see the ticket
+            if (!User.IsInRole("Admin") && booking.MemberId != member?.MemberId)
+            {
+                return Forbid();
+            }
+
+            return View(booking);
+        }
+
+        // GET: /Booking/Verify?token=GUID or /Booking/Verify/5 (Legacy)
+        [Authorize(Roles = "Admin,Organizer")]
+        public async Task<IActionResult> Verify(string? token, int? id)
+        {
+            Booking? booking = null;
+
+            if (!string.IsNullOrEmpty(token) && Guid.TryParse(token, out var ticketCode))
+            {
+                // Secure Lookup by GUID
+                booking = await _context.Bookings
+                    .Include(b => b.Event)
+                        .ThenInclude(e => e!.Venue)
+                    .Include(b => b.Event)
+                        .ThenInclude(e => e!.Category)
+                    .Include(b => b.Member)
+                    .FirstOrDefaultAsync(b => b.TicketCode == ticketCode);
+            }
+            else if (id.HasValue)
+            {
+                // Legacy Lookup by ID
+                booking = await _context.Bookings
+                    .Include(b => b.Event)
+                        .ThenInclude(e => e!.Venue)
+                    .Include(b => b.Event)
+                        .ThenInclude(e => e!.Category)
+                    .Include(b => b.Member)
+                    .FirstOrDefaultAsync(b => b.BookingId == id);
+            }
+
+            if (booking == null)
+            {
+                ViewBag.Status = "Invalid";
+                ViewBag.Message = "Metropolitan registry record not found. This pass may be counterfeit or revoked.";
+                return View("Verify", null);
+            }
+
+            // Simple verification logic: If event is in the past, it's expired
+            if (booking.Event?.EventDate < DateTime.Now.Date)
+            {
+                ViewBag.Status = "Expired";
+                ViewBag.Message = "This access pass has expired. The cultural event has already concluded.";
+            }
+            else
+            {
+                ViewBag.Status = "Valid";
+                ViewBag.Message = "Identity and reservation verified. Access granted to the metropolitan venue.";
+            }
+
+            return View(booking);
         }
     }
 }
