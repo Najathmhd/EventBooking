@@ -11,7 +11,7 @@
     <!-- Hero Content -->
     <div class="container position-relative z-1">
         <div class="row align-items-center min-vh-100">
-            <div class="col-lg-8 animate-fade-up">
+            <div class="col-lg-8 animate-fade-up text-center-mobile">
                 <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill glass-panel mb-4 border border-light border-opacity-10">
                     <span class="badge bg-primary text-black rounded-pill">NEW</span>
                     <span class="small text-white opacity-75">Connect with your community</span>
@@ -20,14 +20,14 @@
                     Ignite Your <br />
                     <span class="text-gradient-gold">Cultural Spirit</span>
                 </h1>
-                <p class="lead text-muted mb-5 w-75">
+                <p class="lead text-muted mb-5 w-100 w-lg-75 mx-auto-mobile">
                     Experience the pulse of the city through exclusive concerts, avant-garde exhibitions, and immersive theatre. Your gateway to the metropolitan arts.
                 </p>
-                <div class="d-flex gap-3">
+                <div class="d-flex gap-3 justify-content-center-mobile">
                     <a asp-controller="Events" asp-action="Index" class="btn btn-primary d-flex align-items-center gap-2">
                         Explore Events <i class="fas fa-arrow-right"></i>
                     </a>
-                    <a asp-controller="Members" asp-action="Register" class="btn btn-outline-light">
+                    <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-outline-light">
                         Become a Member
                     </a>
                 </div>
