@@ -4,12 +4,12 @@
     ViewData["Title"] = "Discover Cultural Experiences";
 }
 
-<div class="container py-5">
+<div class="container py-5" style="margin-top: 100px;">
     <div class="row align-items-end mb-5 animate-slide-up">
         <div class="col-lg-6">
             <div class="accent-line mb-3"></div>
-            <h1 class="display-4 fw-bold text-dark mb-0">Discover Experiences</h1>
-            <p class="lead text-muted mb-0">Join the vibrant metropolitan community at our verified cultural venues.</p>
+            <h1 class="display-4 fw-bold text-white mb-0">Discover Experiences</h1>
+            <p class="lead text-white-50 mb-0">Join the vibrant metropolitan community at our verified cultural venues.</p>
         </div>
         <div class="col-lg-6 text-lg-end mt-4 mt-lg-0">
             @if (User.IsInRole("Admin") || User.IsInRole("Organizer"))

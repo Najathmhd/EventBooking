@@ -1,246 +1,198 @@
 ﻿@model EventBooking.Models.Event
 
 @{
-    ViewData["Title"] = Model?.Title + " - Cultural Insight";
+    ViewData["Title"] = Model?.Title;
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var remainingCapacity = (int)(ViewData["RemainingCapacity"] ?? 0);
+    var isFullyBooked = remainingCapacity <= 0;
 }
 
-<div class="container py-5 mt-4">
-    <div class="row">
-        <div class="col-lg-8 mb-4">
-            <div class="card shadow-sm border-0 animate-slide-up overflow-hidden hover-tilt">
-                <div class="card-body p-0">
-                    <div class="p-4 p-md-5" style="background: @(string.IsNullOrEmpty(Model.ImageUrl) ? "var(--dark-bg)" : $"linear-gradient(rgba(15,23,42,0.8), rgba(15,23,42,0.9)), url('{Model.ImageUrl}') center/cover no-repeat"); color: white; position: relative; min-height: 350px; display: flex; flex-direction: column; justify-content: center;">
-                         <div style="position: absolute; top:0; right:0; opacity: 0.05; font-size: 15rem; pointer-events: none; transform: translate(20%, -20%)">
-                            <i class="fas fa-landmark-dome"></i>
-                         </div>
-                         <div class="d-flex align-items-center mb-3">
-                            <span class="badge bg-primary px-3 py-2 rounded-pill me-3">@(Model?.Category?.Name ?? "Uncategorized")</span>
-                            <span class="small opacity-75"><i class="far fa-clock me-2"></i>Official Metropolitan Event</span>
-                         </div>
-                         <h1 class="display-3 fw-bold mb-4">@Model?.Title</h1>
-                         <div class="d-flex flex-wrap gap-5 mt-2">
-                            <div class="d-flex align-items-center">
-                                <div class="bg-white bg-opacity-10 p-2 rounded-3 me-3">
-                                    <i class="fas fa-calendar-day fs-4 text-white"></i>
-                                </div>
-                                <div>
-                                    <div class="small opacity-50 text-uppercase tracking-wider" style="font-size: 0.7rem">Scheduled Date</div>
-                                    <div class="fw-bold fs-5">@(Model?.EventDate.ToString("MMMM dd, yyyy") ?? "Date TBD")</div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <div class="bg-white bg-opacity-10 p-2 rounded-3 me-3">
-                                    <i class="fas fa-location-dot fs-4 text-white"></i>
-                                </div>
-                                <div>
-                                    <div class="small opacity-50 text-uppercase tracking-wider" style="font-size: 0.7rem">Venue Location</div>
-                                    <div class="fw-bold fs-5">@Model.Venue?.Name</div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center ms-auto">
-                                <a href="#bookingSection" class="btn btn-light btn-lg rounded-pill shadow-lg px-4 fw-bold">
-                                    <i class="fas fa-ticket-alt me-2"></i>Book Tickets
-                                </a>
-                            </div>
-                         </div>
-                    </div>
-
-                    <div class="p-4 p-md-5">
-                        <div class="accent-line"></div>
-                        <h4 class="fw-bold mb-4">Event Narrative</h4>
-                        <div class="lead text-dark opacity-75 mb-5" style="line-height: 1.8; font-size: 1.25rem;">
-                            @Model.Description
-                        </div>
-
-                        <div class="mt-5 p-4 rounded-4 d-flex align-items-center hover-tilt" style="background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border);">
-                            <div class="me-4">
-                                <img src="https://ui-avatars.com/api/?name=@(Model.CreatedBy ?? "Curator")&background=0f172a&color=fff&bold=true" class="rounded-circle shadow-sm" width="60" alt="Curator" />
-                            </div>
-                            <div>
-                                <h6 class="mb-1 fw-bold fs-5 text-dark">Verified Curator Identity</h6>
-                                <p class="mb-0 text-muted">This event is officially curated by <strong>@(Model.CreatedBy ?? "Metropolitan Administration")</strong> and adheres to the city's cultural standards.</p>
-                            </div>
-                        </div>
-                    </div>
+<!-- CINEMATIC HEADER -->
+<div class="position-relative w-100" style="height: 60vh; margin-top: -80px;">
+    <img src="@(string.IsNullOrEmpty(Model.ImageUrl) ? "https://images.unsplash.com/photo-1514525253440-b393452e8d26" : Model.ImageUrl)" 
+         class="w-100 h-100 object-fit-cover" 
+         alt="@Model.Title"
+         style="mask-image: linear-gradient(to bottom, black 50%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);">
+    
+    <div class="position-absolute bottom-0 start-0 w-100 pb-5">
+        <div class="container animate-fade-up">
+            <span class="badge glass-panel text-white border-primary mb-3 px-3 py-2 rounded-pill">
+                <i class="fas fa-tag me-2 text-gold"></i>@(Model?.Category?.Name ?? "Event")
+            </span>
+            <h1 class="display-2 fw-bold text-white mb-2" style="text-shadow: 0 4px 20px rgba(0,0,0,0.5);">@Model?.Title</h1>
+            <div class="d-flex align-items-center gap-4 text-white opacity-90">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="far fa-calendar text-gold"></i>
+                    <span>@(Model?.EventDate.ToString("MMMM dd, yyyy") ?? "TBA")</span>
                 </div>
-            </div>
-
-            <!-- MOVED CONTENT: Description, Reviews, Inquiry -->
-            <div class="card shadow-sm border-0 animate-slide-up mt-4">
-                <div class="card-body p-4 p-md-5">
-                    <div class="mb-5">
-                        <h4 class="fw-bold mb-4">Event Narrative</h4>
-                        <div class="lead text-dark opacity-75" style="line-height: 1.8; font-size: 1.1rem;">
-                            @Model.Description
-                        </div>
-                    </div>
-
-                    <hr class="my-5 opacity-10" />
-
-                    <!-- REVIEWS SECTION -->
-                    <div class="mb-5">
-                        <h4 class="fw-bold mb-4">Community Reviews</h4>
-                        @if (Model.Reviews != null && Model.Reviews.Any())
-                        {
-                            <div class="d-flex flex-column gap-3">
-                                @foreach (var review in Model.Reviews)
-                                {
-                                    <div class="p-3 rounded-3 bg-light border-start border-4 border-primary">
-                                        <div class="d-flex justify-content-between mb-2">
-                                            <div>
-                                                <span class="fw-bold">@review.Member?.FullName</span>
-                                                @if (User.IsInRole("Admin"))
-                                                {
-                                                    <form asp-controller="Reviews" asp-action="Delete" method="post" class="d-inline ms-2" onsubmit="return confirm('Delete this review permanently?');">
-                                                        <input type="hidden" name="id" value="@review.ReviewId" />
-                                                        <button type="submit" class="btn btn-link p-0 text-danger small" style="text-decoration: none;">
-                                                            <i class="fas fa-trash-alt"></i>
-                                                        </button>
-                                                    </form>
-                                                }
-                                            </div>
-                                            <span class="text-warning">
-                                                @for(int i=0; i<review.Rating; i++) { <i class="fas fa-star"></i> }
-                                                @for(int i=review.Rating; i<5; i++) { <i class="far fa-star"></i> }
-                                            </span>
-                                        </div>
-                                        <p class="mb-0 text-muted small">@review.Comment</p>
-                                    </div>
-                                }
-                            </div>
-                        }
-                        else
-                        {
-                            <p class="text-muted fst-italic">No reviews yet. Be the first to share your experience!</p>
-                        }
-                    </div>
-
-                    <!-- GUEST INQUIRY FORM -->
-                    @if (!User.Identity.IsAuthenticated)
-                    {
-                        <div class="card bg-soft-primary border-0 p-4">
-                            <h5 class="fw-bold text-primary mb-3">Questions? Contact Curator</h5>
-                            <form asp-controller="Inquiry" asp-action="Submit" method="post">
-                                <div class="mb-3">
-                                    <input type="text" name="Name" class="form-control" placeholder="Your Name" required />
-                                </div>
-                                <div class="mb-3">
-                                    <input type="email" name="Email" class="form-control" placeholder="Your Email" required />
-                                </div>
-                                <div class="mb-3">
-                                    <textarea name="Message" class="form-control" rows="3" placeholder="What would you like to know?" required></textarea>
-                                </div>
-                                <button type="submit" class="btn btn-primary w-100 shadow-sm"><i class="fas fa-paper-plane me-2"></i>Send Inquiry</button>
-                            </form>
-                        </div>
-                    }
+                <div class="d-flex align-items-center gap-2">
+                    <i class="fas fa-map-marker-alt text-gold"></i>
+                    <span>@Model.Venue?.Name</span>
                 </div>
             </div>
         </div>
+    </div>
+</div>
 
-        <div class="col-lg-4">
-            <!-- Simplified Sidebar: Just Booking Card now -->
+<div class="container py-5">
+    <div class="row g-5">
+        <!-- LEFT COLUMN: CONTENT -->
+        <div class="col-lg-8 animate-fade-up delay-1">
+            <!-- Description -->
+            <div class="glass-panel p-5 mb-5">
+                <h4 class="fw-bold text-white mb-4 border-start border-4 border-warning ps-3">About the Experience</h4>
+                <div class="lead text-muted" style="line-height: 1.8;">
+                    @Model.Description
+                </div>
+                
+                <div class="mt-5 p-4 rounded-4 bg-white bg-opacity-5 d-flex align-items-center gap-4 border border-light border-opacity-10">
+                    <div class="rounded-circle bg-gradient p-1" style="width: 60px; height: 60px; background: var(--primary);">
+                        <img src="https://ui-avatars.com/api/?name=@(Model.CreatedBy ?? "A")&background=020617&color=fff" class="rounded-circle w-100 h-100" alt="Curator" />
+                    </div>
+                    <div>
+                        <h6 class="text-white fw-bold mb-0">Curated by @(Model.CreatedBy ?? "Metropolitan Arts")</h6>
+                        <small class="text-muted">Official Cultural Partner</small>
+                    </div>
+                </div>
+            </div>
 
-            <!-- Booking Section (Right Column) -->
-            <div id="bookingSection" class="card shadow-lg border-0 sticky-top mt-4" style="top: 2rem; z-index: 10;">
-                <div class="card-body p-4">
-                    <h4 class="fw-bold mb-4">Reserve Spot</h4>
-                    
-                    @{
-                        // CAPACITY RESTRICTIONS RESTORED
-                        var remainingCapacity = (int)(ViewData["RemainingCapacity"] ?? 0);
-                        var isFullyBooked = remainingCapacity <= 0;
-                        var maxTickets = remainingCapacity;
-                    }
-                    
-                    @if (isFullyBooked)
-                    {
-                        <div class="alert alert-danger text-center shadow-sm">
-                            <i class="fas fa-ban fa-2x mb-3 d-block"></i>
-                            <strong class="fs-5">Fully Booked</strong>
-                            <p class="small mb-0 mt-2">All @Model.Capacity seats have been reserved.</p>
-                        </div>
-                    }
-                    else if (User.Identity?.IsAuthenticated == true)
-                    {
-                        <div class="alert alert-info border-0 mb-3 py-2 px-3">
-                            <i class="fas fa-info-circle me-2"></i>
-                            <small>Capacity: <strong>@remainingCapacity</strong> seats available</small>
-                        </div>
-                        
-                        <form asp-controller="Booking" asp-action="Book" method="post">
-                            <input type="hidden" name="eventId" value="@Model.Id" />
-                            
-                            <div class="mb-4">
-                                <label class="form-label fw-bold small text-muted">Number of Tickets</label>
-                                <div class="input-group">
-                                    <button type="button" class="btn btn-outline-secondary" onclick="decrementTickets()">-</button>
-                                    <input type="number" name="quantity" id="ticketQuantity" class="form-control text-center fw-bold" value="1" min="1" max="@maxTickets" readonly />
-                                    <button type="button" class="btn btn-outline-secondary" onclick="incrementTickets(@maxTickets)">+</button>
+            <!-- Reviews -->
+            <div class="glass-panel p-5 mb-5">
+                <h4 class="fw-bold text-white mb-4 border-start border-4 border-info ps-3">Community Voices</h4>
+                
+                @if (Model.Reviews != null && Model.Reviews.Any())
+                {
+                    <div class="d-flex flex-column gap-3">
+                        @foreach (var review in Model.Reviews)
+                        {
+                            <div class="p-4 rounded-4 bg-white bg-opacity-5 border border-light border-opacity-5 hover-tilt">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="fw-bold text-white">@review.Member?.FullName</div>
+                                         @if (User.IsInRole("Admin"))
+                                        {
+                                            <form asp-controller="Reviews" asp-action="Delete" method="post" onsubmit="return confirm('Delete review?');">
+                                                <input type="hidden" name="id" value="@review.ReviewId" />
+                                                <button type="submit" class="btn btn-link p-0 text-danger ms-2 small"><i class="fas fa-trash"></i></button>
+                                            </form>
+                                        }
+                                    </div>
+                                    <div class="text-warning small">
+                                        @for(int i=0; i<review.Rating; i++) { <i class="fas fa-star"></i> }
+                                    </div>
+                                </div>
+                                <p class="mb-0 text-muted small">"@review.Comment"</p>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center py-4">
+                        <i class="far fa-comment-dots fa-2x text-muted mb-3"></i>
+                        <p class="text-muted">No reviews yet. Be the first to add your voice.</p>
+                    </div>
+                }
+            </div>
+
+            <!-- Inquiry Form -->
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <div class="glass-panel p-5">
+                    <h4 class="fw-bold text-white mb-4 border-start border-4 border-success ps-3">Have Questions?</h4>
+                    <form asp-controller="Inquiry" asp-action="Submit" method="post">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" name="Name" class="form-control" placeholder="Name" required />
+                                    <label>Your Name</label>
                                 </div>
                             </div>
-
-                            <div class="d-flex justify-content-between align-items-center mb-4 p-3 bg-light rounded-3">
-                                <span class="text-muted">Total</span>
-                                <span class="h4 mb-0 fw-bold text-primary" id="totalPrice">£@Model.Price.ToString("F2")</span>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="email" name="Email" class="form-control" placeholder="Email" required />
+                                    <label>Your Email</label>
+                                </div>
                             </div>
-
-                            <div class="d-grid">
-                                <button type="submit" class="btn btn-primary btn-lg shadow-sm">
-                                    Confirm Reservation <i class="fas fa-check-circle ms-2"></i>
-                                </button>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <textarea name="Message" class="form-control" style="height: 120px" placeholder="Message" required></textarea>
+                                    <label>How can we help?</label>
+                                </div>
                             </div>
-                        </form>
+                            <div class="col-12 text-end">
+                                <button type="submit" class="btn btn-outline-light rounded-pill px-4">Send Message</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            }
+        </div>
+
+        <!-- RIGHT COLUMN: STICKY BOOKING -->
+        <div class="col-lg-4">
+            <div class="sticky-top" style="top: 100px; z-index: 10;">
+                <div class="glass-panel p-4 animate-fade-up delay-2 border-top border-4 border-primary shadow-lg">
+                    <div class="text-center mb-4">
+                        <div class="small text-muted text-uppercase tracking-widest fw-bold mb-1">Ticket Price</div>
+                        <div class="display-5 fw-bold text-white">£@Model.Price.ToString("F0")</div>
+                    </div>
+
+                    @if (isFullyBooked)
+                    {
+                        <div class="alert alert-danger bg-danger bg-opacity-10 border-danger border-opacity-25 text-danger text-center rounded-3">
+                            <i class="fas fa-shield-check me-2"></i>Official Verified Event
+                        </div>
                     }
                     else
                     {
-                        @if (isFullyBooked)
-                        {
-                            <div class="alert alert-danger text-center shadow-sm">
-                                <strong class="fs-5">Fully Booked</strong>
-                                <p class="small mb-0 mt-2">No tickets available.</p>
+                        <!-- Availability Bar -->
+                         <div class="mb-4">
+                            <div class="d-flex justify-content-between text-muted small mb-1">
+                                <span>Availability</span>
+                                <span>@remainingCapacity seats left</span>
                             </div>
+                            <div class="progress" style="height: 6px; background: rgba(255,255,255,0.1);">
+                                @{ var percent = (double)remainingCapacity / Model.Capacity * 100; }
+                                <div class="progress-bar bg-gradient" style="width: @percent%; background: var(--primary);"></div>
+                            </div>
+                        </div>
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <form asp-controller="Booking" asp-action="Book" method="post">
+                                <input type="hidden" name="eventId" value="@Model.Id" />
+                                
+                                <div class="d-flex align-items-center justify-content-between p-3 rounded-3 bg-white bg-opacity-5 mb-4 border border-light border-opacity-10">
+                                    <button type="button" class="btn btn-sm btn-outline-light rounded-circle" onclick="updateTickets(-1)" style="width: 32px; height: 32px; padding: 0;">-</button>
+                                    <input type="number" name="quantity" id="qty" value="1" min="1" max="@remainingCapacity" class="form-control bg-transparent border-0 text-center text-white fw-bold w-50" readonly />
+                                    <button type="button" class="btn btn-sm btn-outline-light rounded-circle" onclick="updateTickets(1)" style="width: 32px; height: 32px; padding: 0;">+</button>
+                                </div>
+
+                                <div class="d-flex justify-content-between align-items-center mb-4 text-white">
+                                    <span>Total Value</span>
+                                    <span class="h4 mb-0 fw-bold" id="total">£@Model.Price.ToString("F0")</span>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary w-100 py-3 shadow-lg hover-scale">
+                                    Confirm Reservation
+                                </button>
+                            </form>
                         }
                         else
                         {
-                            <!-- Guest Booking Preview -->
-                            <div class="alert alert-info border-0 mb-3 py-2 px-3">
-                                <i class="fas fa-info-circle me-2"></i>
-                                <small><strong>@remainingCapacity</strong> of <strong>@Model.Capacity</strong> seats remaining</small>
-                            </div>
-                            
-                            <div class="mb-4 p-3 bg-light rounded-3 border">
-                                <label class="form-label fw-bold small text-muted mb-2">Ticket Pricing</label>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <span class="text-muted">Per Ticket</span>
-                                    <span class="h4 mb-0 fw-bold text-primary">£@Model.Price.ToString("F2")</span>
-                                </div>
-                            </div>
-                            
-                            <div class="alert alert-warning border-0 mb-3">
-                                <div class="d-flex align-items-center mb-2">
-                                    <i class="fas fa-lock fs-4 me-3"></i>
-                                    <div>
-                                        <strong class="d-block">Sign In Required</strong>
-                                        <small>Create a free account to book tickets</small>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="d-grid gap-2">
-                                <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-primary btn-lg shadow-sm">
-                                    <i class="fas fa-user-plus me-2"></i>Register & Book Now
-                                </a>
-                                <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-outline-primary">
-                                    Already have an account? Sign In
-                                </a>
-                            </div>
+                            <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-primary w-100 py-3 shadow-lg mb-2">
+                                Register to Book
+                            </a>
+                            <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-outline-light w-100 py-2 small">
+                                Member Sign In
+                            </a>
                         }
                     }
                     
-                    <div class="small text-muted opacity-75">
-                        <i class="fas fa-shield-check me-2"></i>Official Metropolitan Certification
+                    <div class="text-center mt-4">
+                        <small class="text-muted d-block mb-1"><i class="fas fa-shield-alt me-1"></i> Secure Transaction</small>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Stripe_Logo%2C_revised_2016.svg/2560px-Stripe_Logo%2C_revised_2016.svg.png" height="20" class="opacity-50" style="filter: grayscale(1) invert(1);" alt="Payments" />
                     </div>
                 </div>
             </div>
@@ -248,47 +200,16 @@
     </div>
 </div>
 
-<!-- Mobile Sticky Booking Bar -->
-<div class="d-block d-lg-none fixed-bottom bg-white border-top shadow-lg p-3" style="z-index: 1000;">
-    <div class="d-flex justify-content-between align-items-center">
-        <div>
-            <div class="small text-muted text-uppercase tracking-wider" style="font-size: 0.7rem">Total Price</div>
-            <div class="fw-bold fs-4 text-primary">£@Model.Price.ToString("F2")</div>
-        </div>
-        <a href="#bookingSection" class="btn btn-primary rounded-pill px-4 shadow-sm fw-bold">
-            Book Now <i class="fas fa-ticket-alt ms-2"></i>
-        </a>
-    </div>
-</div>
-
-<style>
-    .tracking-wider { letter-spacing: 0.12em; }
-</style>
-
 <script>
-    const eventPrice = @Model.Price;
+    const price = @Model.Price;
+    const max = @remainingCapacity;
     
-    function incrementTickets(maxAllowed) {
-        const input = document.getElementById('ticketQuantity');
-        const currentValue = parseInt(input.value) || 1;
-        if (currentValue < maxAllowed) {
-            input.value = currentValue + 1;
-            updateTotalPrice();
+    function updateTickets(change) {
+        const input = document.getElementById('qty');
+        let val = parseInt(input.value) + change;
+        if(val >= 1 && val <= max) {
+            input.value = val;
+            document.getElementById('total').innerText = '£' + (val * price).toFixed(0);
         }
-    }
-    
-    function decrementTickets() {
-        const input = document.getElementById('ticketQuantity');
-        const currentValue = parseInt(input.value) || 1;
-        if (currentValue > 1) {
-            input.value = currentValue - 1;
-            updateTotalPrice();
-        }
-    }
-    
-    function updateTotalPrice() {
-        const quantity = parseInt(document.getElementById('ticketQuantity').value) || 1;
-        const total = (eventPrice * quantity).toFixed(2);
-        document.getElementById('totalPrice').textContent = '£' + total;
     }
 </script>

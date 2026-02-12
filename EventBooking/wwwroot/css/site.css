@@ -1,359 +1,279 @@
-/* EventBooking "Midnight Metropolitan" Dark Theme */
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap');
+/* =========================================
+   MIDNIGHT METROPOLITAN - GLASSMORPHISM UI
+   ========================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
 :root {
+    /* --- Palette --- */
     --bg-main: #020617;
-    /* Deepest Midnight Slate */
-    --bg-surface: #0f172a;
+    /* Deepest Midnight */
+    --bg-deep: #0f172a;
     /* Slate 900 */
-    --bg-card: #1e293b;
-    /* Slate 800 */
-    --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-    --secondary-gradient: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+    --bg-surface: rgba(30, 41, 59, 0.4);
+    /* Glass Surface */
+
+    --primary: #f59e0b;
+    /* Amber/Gold */
+    --primary-glow: rgba(245, 158, 11, 0.4);
+    --accent: #6366f1;
+    /* Indigo */
+
     --text-main: #f8fafc;
     /* Slate 50 */
     --text-muted: #94a3b8;
     /* Slate 400 */
+
+    /* --- Glass Effects --- */
     --glass-border: rgba(255, 255, 255, 0.08);
-    --card-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.3);
-    --hover-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
-    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    --blur-intensity: 12px;
-}
+    --glass-highlight: rgba(255, 255, 255, 0.15);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
 
-.tracking-tight {
-    letter-spacing: -0.05em;
-}
-
-.blur-effect {
-    backdrop-filter: blur(var(--blur-intensity));
-    -webkit-backdrop-filter: blur(var(--blur-intensity));
-    background: rgba(255, 255, 255, 0.05) !important;
-}
-
-.animate-fade-in {
-    animation: fadeIn 1s ease-out forwards;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
+    --blur-amt: 16px;
+    --transition: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 body {
     background-color: var(--bg-main) !important;
     color: var(--text-main) !important;
     font-family: 'Outfit', sans-serif;
-    line-height: 1.7;
+    line-height: 1.6;
+    overflow-x: hidden;
+    background-image:
+        radial-gradient(circle at 15% 50%, rgba(99, 102, 241, 0.08) 0%, transparent 25%),
+        radial-gradient(circle at 85% 30%, rgba(245, 158, 11, 0.05) 0%, transparent 25%);
+    background-attachment: fixed;
 }
 
-/* Typography Overrides */
+/* --- Typography --- */
 h1,
 h2,
 h3,
 h4,
 h5,
-h6,
-.h1,
-.h2,
-.h3 {
+h6 {
     color: var(--text-main);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.text-gold {
+    color: var(--primary) !important;
 }
 
 .text-gradient {
-    background: var(--primary-gradient);
+    background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
     -webkit-background-clip: text;
-    background-clip: text;
     -webkit-text-fill-color: transparent;
-    font-weight: 800;
 }
 
-.text-muted {
-    color: var(--text-muted) !important;
+.text-gradient-gold {
+    background: linear-gradient(135deg, #fcd34d 0%, #f59e0b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-/* Global Navigation */
-.navbar {
-    background: rgba(2, 6, 23, 0.95) !important;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--glass-border);
-    padding: 1.2rem 0;
-}
-
-/* Cards & Containers */
-.card {
-    background: var(--bg-card) !important;
+/* --- Glass Components --- */
+.glass-panel,
+.card,
+.navbar,
+.modal-content {
+    background: rgba(15, 23, 42, 0.65) !important;
+    backdrop-filter: blur(var(--blur-amt));
+    -webkit-backdrop-filter: blur(var(--blur-amt));
     border: 1px solid var(--glass-border) !important;
-    border-radius: 24px;
-    box-shadow: var(--card-shadow);
-    transition: var(--transition-smooth);
-    color: var(--text-main) !important;
-}
-
-.bg-white,
-.bg-light {
-    background-color: var(--bg-card) !important;
-}
-
-.bg-dark {
-    background-color: var(--bg-main) !important;
-}
-
-/* Tables in Dark Mode */
-.table {
-    color: var(--text-main) !important;
-}
-
-.table thead th {
-    background: rgba(255, 255, 255, 0.03) !important;
-    border-bottom: 1px solid var(--glass-border) !important;
-    color: var(--text-muted) !important;
-}
-
-.table-hover tbody tr:hover {
-    background-color: rgba(255, 255, 255, 0.02) !important;
-}
-
-/* Form Elements */
-.form-control,
-.form-select {
-    background-color: rgba(15, 23, 42, 0.6) !important;
-    border: 1px solid var(--glass-border) !important;
-    color: var(--text-main) !important;
-    border-radius: 12px;
-}
-
-.form-control:focus,
-.form-select:focus {
-    background-color: rgba(30, 41, 59, 1) !important;
-    border-color: #6366f1 !important;
-    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
-}
-
-/* Identity Pages (Login/Register) Force Dark */
-main {
-    background-color: var(--bg-main);
-}
-
-.alert-success {
-    background: rgba(16, 185, 129, 0.1);
-    border: 1px solid rgba(16, 185, 129, 0.2);
-    color: #34d399;
-}
-
-.alert-danger {
-    background: rgba(239, 68, 68, 0.1);
-    border: 1px solid rgba(239, 68, 68, 0.2);
-    color: #f87171;
-}
-
-/* Buttons */
-.btn {
-    border-radius: 14px;
-    font-weight: 600;
-}
-
-.btn-primary {
-    background: var(--primary-gradient) !important;
-    border: none;
-    box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.4);
-}
-
-.btn-outline-light {
-    border-color: var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    border-radius: 20px;
     color: var(--text-main);
 }
 
-/* Hero Section Adjustments */
-.hero-section {
-    background: transparent !important;
-    padding: 180px 0;
+.glass-card-hover {
+    transition: all 0.4s var(--transition);
 }
 
-.accent-line {
-    width: 60px;
-    height: 6px;
-    background: var(--primary-gradient);
-    border-radius: 3px;
+.glass-card-hover:hover {
+    transform: translateY(-8px);
+    border-color: var(--glass-highlight) !important;
+    box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.4), 0 0 20px var(--primary-glow);
 }
 
-/* Animations */
-.animate-slide-up {
-    animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+/* --- Buttons --- */
+.btn {
+    border-radius: 50px;
+    /* Pill shape */
+    padding: 12px 28px;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    transition: all 0.3s ease;
+    border: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: #000;
+    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+}
+
+.btn-primary:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(245, 158, 11, 0.5);
+    color: #000;
+}
+
+.btn-outline-light {
+    border: 1px solid var(--glass-border);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-main);
+}
+
+.btn-outline-light:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #fff;
+}
+
+/* --- Navbar --- */
+.navbar {
+    background: rgba(2, 6, 23, 0.7) !important;
+    /* More transparent */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 1.5rem 0;
+    transition: padding 0.3s ease;
+}
+
+.navbar.scrolled {
+    padding: 1rem 0;
+    background: rgba(2, 6, 23, 0.95) !important;
+}
+
+.nav-link {
+    color: var(--text-muted) !important;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: #fff !important;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+/* --- Forms (Floating) --- */
+.form-control,
+.form-select {
+    background: rgba(0, 0, 0, 0.6) !important;
+    border: 1px solid var(--glass-border) !important;
+    color: #fff !important;
+    border-radius: 12px;
+    padding: 1rem;
+}
+
+.form-control:focus {
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 4px var(--primary-glow);
+    background: rgba(0, 0, 0, 0.8) !important;
+}
+
+.form-floating>label {
+    color: var(--text-muted);
+}
+
+/* --- Tables --- */
+.table {
+    color: var(--text-main);
+    border-color: var(--glass-border);
+}
+
+.table thead th {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--primary);
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    border-bottom-width: 0;
+}
+
+.table-hover tbody tr:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+/* --- Animations --- */
+.animate-fade-up {
+    animation: fadeUp 0.8s var(--transition) forwards;
     opacity: 0;
+    transform: translateY(30px);
 }
 
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-
+@keyframes fadeUp {
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
 
-footer {
-    background: #020617;
-    border-top: 1px solid var(--glass-border);
+.delay-1 {
+    animation-delay: 0.1s;
 }
 
-/* Identity UI Forced Redesign */
-#account,
-#registerForm,
-.identity-card-wrapper {
-    background: var(--bg-card) !important;
-    padding: 3.5rem !important;
-    border-radius: 32px !important;
-    border: 1px solid var(--glass-border) !important;
-    box-shadow: var(--hover-shadow) !important;
-    margin-top: 2rem;
+.delay-2 {
+    animation-delay: 0.2s;
+}
+
+.delay-3 {
+    animation-delay: 0.3s;
+}
+
+/* --- Unique Layout Utils --- */
+.hero-section {
+    min-height: 85vh;
+    display: flex;
+    align-items: center;
     position: relative;
-    overflow: hidden;
+    padding-top: 80px;
 }
 
-#account::before,
-#registerForm::before {
-    content: '';
+.hero-bg {
     position: absolute;
     top: 0;
     left: 0;
-    right: 0;
-    height: 4px;
-    background: var(--primary-gradient);
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    object-fit: cover;
+    opacity: 0.4;
+    mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
 }
 
-#account h2,
-#registerForm h2,
-#account h1,
-#registerForm h1,
-#account h3 {
-    font-weight: 800;
-    margin-bottom: 2.5rem;
-    color: var(--text-main) !important;
-    text-align: center;
-    letter-spacing: -1px;
+.divider-wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
 }
 
-.form-floating>label {
-    color: var(--text-muted) !important;
-}
-
-.form-floating>.form-control:focus~label,
-.form-floating>.form-control:not(:placeholder-shown)~label {
-    color: #6366f1 !important;
-}
-
-.checkbox label {
-    color: var(--text-muted);
-}
-
-/* Auth Page Layout Centering & Hiding External Providers */
-.row:has(#account),
-.row:has(#registerForm) {
-    justify-content: center !important;
-    min-height: 80vh;
-    align-items: center;
-}
-
-.col-md-4:has(#account),
-.col-md-4:has(#registerForm),
-.col-md-6:has(#registerForm) {
-    width: 100% !important;
-    max-width: 550px !important;
-    flex: 0 0 auto !important;
-}
-
-/* Hide Unused Identity Columns and Dividers */
-.row:has(#account)>.col-md-6:not(:has(#account)),
-.row:has(#registerForm)>.col-md-6:not(:has(#registerForm)),
-.row:has(#account) hr,
-section[id^="external"],
-.login-external-providers {
-    display: none !important;
-}
-
-/* Animations for Identity */
-#account,
-#registerForm {
-    animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-}
-
-/* =========================================
-   UNIQUE UI COMPONENTS (Metropolitan Polish)
-   ========================================= */
-
-/* 1. Cinematic Scroll Reveal */
-.reveal {
+.divider-wave svg {
     position: relative;
-    transform: translateY(50px);
-    opacity: 0;
-    transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+    display: block;
+    width: calc(150% + 1.3px);
+    height: 120px;
+    transform: rotateY(180deg);
 }
 
-.reveal.active {
-    transform: translateY(0);
-    opacity: 1;
+.divider-wave .shape-fill {
+    fill: var(--bg-main);
 }
 
-/* 2. 3D Holographic Tilt Effect */
-.hover-tilt {
-    transition: transform 0.1s ease-out;
-    /* Super fast for mouse tracking */
-    transform-style: preserve-3d;
-    perspective: 1000px;
-    will-change: transform;
-}
-
-/* Add depth to children when tilted */
-.hover-tilt>* {
-    transform: translateZ(20px);
-    /* pointer-events: none; */
-    /* Optional: if buttons inside break */
-}
-
-/* 3. Living Gradient Text */
-.text-gradient-animated {
-    background: linear-gradient(-45deg,
-            #6366f1,
-            #a855f7,
-            #ec4899,
-            #3b82f6);
-    background-size: 300% 300%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: gradientFlow 6s ease infinite;
-    font-weight: 800;
-}
-
-@keyframes gradientFlow {
-    0% {
-        background-position: 0% 50%;
-    }
-
-    50% {
-        background-position: 100% 50%;
-    }
-
-    100% {
-        background-position: 0% 50%;
-    }
-}
-
-/* 4. Glassmorphism Card Variant */
-.card-glass {
-    background: rgba(30, 41, 59, 0.4) !important;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.05) !important;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+/* --- Identity Pages Fix --- */
+.identity-card {
+    background: rgba(15, 23, 42, 0.8) !important;
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 3rem;
 }
