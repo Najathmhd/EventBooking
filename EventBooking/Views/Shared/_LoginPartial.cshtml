@@ -7,7 +7,7 @@
 {
     <li class="nav-item">
         <a class="nav-link d-flex align-items-center" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage Portfolio">
-            <div class="bg-success text-white rounded-circle me-2 d-flex align-items-center justify-content-center shadow-sm" style="width: 24px; height: 24px; font-size: 0.7rem;">
+            <div class="bg-primary text-black rounded-circle me-2 d-flex align-items-center justify-content-center shadow-sm" style="width: 24px; height: 24px; font-size: 0.7rem;">
                 <i class="fas fa-check"></i>
             </div>
             <span class="small fw-bold text-white opacity-75">Verified: @User.Identity?.Name</span>
@@ -22,10 +22,10 @@
 else
 {
     <li class="nav-item">
-        <a class="nav-link fw-bold" asp-area="Identity" asp-page="/Account/Register">Citizen Enrollment</a>
+        <a class="nav-link fw-bold" asp-area="Identity" asp-page="/Account/Register">Register</a>
     </li>
     <li class="nav-item ms-lg-3">
-        <a class="btn btn-primary btn-sm px-4 shadow-sm" asp-area="Identity" asp-page="/Account/Login">Portal Access</a>
+        <a class="btn btn-primary btn-sm px-4 shadow-sm" asp-area="Identity" asp-page="/Account/Login">Login</a>
     </li>
 }
 </ul>

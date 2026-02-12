@@ -17,6 +17,18 @@ namespace EventBooking.Controllers
             _context = context;
         }
 
+        // GET: Reviews (Admin Only)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Index()
+        {
+            var reviews = await _context.Reviews
+                .Include(r => r.Event)
+                .Include(r => r.Member)
+                .OrderByDescending(r => r.ReviewDate)
+                .ToListAsync();
+            return View(reviews);
+        }
+
         // POST: Reviews/Submit
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -76,7 +88,7 @@ namespace EventBooking.Controllers
             await _context.SaveChangesAsync();
 
             TempData["Success"] = "Review removed by Administrator.";
-            return RedirectToAction("Details", "Events", new { id = eventId });
+            return RedirectToAction(nameof(Index));
         }
     }
 }

@@ -43,20 +43,21 @@ namespace EventBooking.Controllers
         }
 
         // POST: /Inquiry/MarkResolved/5
-        [HttpPost]
-        [Authorize(Roles = "Admin")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> MarkResolved(int id)
-        {
-            var inquiry = await _context.Inquiries.FindAsync(id);
-            if (inquiry == null) return NotFound();
+        // POST: /Inquiry/MarkResolved/5
+        //[HttpPost]
+        //[Authorize(Roles = "Admin")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> MarkResolved(int id)
+        //{
+        //    var inquiry = await _context.Inquiries.FindAsync(id);
+        //    if (inquiry == null) return NotFound();
 
-            inquiry.IsResolved = !inquiry.IsResolved; // Toggle status
-            _context.Update(inquiry);
-            await _context.SaveChangesAsync();
+        //    inquiry.IsResolved = !inquiry.IsResolved; // Toggle status
+        //    _context.Update(inquiry);
+        //    await _context.SaveChangesAsync();
 
-            TempData["Success"] = inquiry.IsResolved ? "Inquiry marked as resolved." : "Inquiry reopened.";
-            return RedirectToAction(nameof(Index));
-        }
+        //    TempData["Success"] = inquiry.IsResolved ? "Inquiry marked as resolved." : "Inquiry reopened.";
+        //    return RedirectToAction(nameof(Index));
+        //}
     }
 }

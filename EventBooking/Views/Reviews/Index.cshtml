@@ -1,0 +1,85 @@
+@model IEnumerable<EventBooking.Models.Review>
+
+@{
+    ViewData["Title"] = "Review Moderation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-5 mt-5" style="margin-top: 100px;">
+    <div class="row align-items-end mb-5 animate-slide-up">
+        <div class="col-lg-6">
+             <div class="accent-line mb-3"></div>
+            <h1 class="display-5 fw-bold text-white mb-0">Community Voices</h1>
+            <p class="lead text-white-50 mb-0">Manage and moderate reviews for all cultural events.</p>
+        </div>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="card glass-panel border-0 p-5 text-center animate-slide-up" style="animation-delay: 0.1s">
+            <div class="text-white-50 opacity-25 mb-4">
+                <i class="fas fa-star-half-alt fa-4x"></i>
+            </div>
+            <h4 class="fw-bold text-white">No Reviews Yet</h4>
+            <p class="text-white-50">Community members haven't shared their experiences yet.</p>
+        </div>
+    }
+    else
+    {
+        <div class="card glass-panel border-0 overflow-hidden animate-slide-up" style="animation-delay: 0.1s">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0 text-white">
+                    <thead>
+                        <tr class="border-bottm border-white border-opacity-10">
+                            <th class="ps-4 py-3 text-gold">Event</th>
+                            <th class="py-3 text-gold">Member</th>
+                            <th class="py-3 text-gold">Rating</th>
+                            <th class="py-3 text-gold">Comment</th>
+                            <th class="py-3 text-gold">Date</th>
+                            <th class="pe-4 py-3 text-end text-gold">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr class="border-bottom border-white border-opacity-5">
+                                <td class="ps-4">
+                                    <div class="fw-bold">@item.Event?.Title</div>
+                                    <small class="text-white-50">@item.Event?.EventDate.ToString("MMM dd")</small>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="rounded-circle bg-primary bg-opacity-10 text-primary d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
+                                            @item.Member?.FullName.Substring(0, 1)
+                                        </div>
+                                        <span>@item.Member?.FullName</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="text-warning">
+                                        @for (int i = 0; i < item.Rating; i++)
+                                        {
+                                            <i class="fas fa-star small"></i>
+                                        }
+                                    </div>
+                                </td>
+                                <td style="max-width: 250px;">
+                                    <div class="text-truncate text-white-50" title="@item.Comment">@item.Comment</div>
+                                </td>
+                                <td class="text-white-50 small">@item.ReviewDate.ToString("MMM dd, yyyy")</td>
+                                <td class="pe-4 text-end">
+                                    <form asp-action="Delete" method="post" class="d-inline" onsubmit="return confirm('Archive this review?');">
+                                        <input type="hidden" name="id" value="@item.ReviewId" />
+                                        <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill px-3">
+                                            <i class="fas fa-trash-alt me-1"></i> Remove
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>

@@ -23,7 +23,7 @@ namespace EventBooking.Models
 
         public DateTime InquiryDate { get; set; }
 
-        public bool IsResolved { get; set; } = false;
+        // public bool IsResolved { get; set; } = false;
 
         // Optional FK (guest or member)
         public int? MemberId { get; set; }
