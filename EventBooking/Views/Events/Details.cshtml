@@ -88,7 +88,18 @@
                                 {
                                     <div class="p-3 rounded-3 bg-light border-start border-4 border-primary">
                                         <div class="d-flex justify-content-between mb-2">
-                                            <span class="fw-bold">@review.Member?.FullName</span>
+                                            <div>
+                                                <span class="fw-bold">@review.Member?.FullName</span>
+                                                @if (User.IsInRole("Admin"))
+                                                {
+                                                    <form asp-controller="Reviews" asp-action="Delete" method="post" class="d-inline ms-2" onsubmit="return confirm('Delete this review permanently?');">
+                                                        <input type="hidden" name="id" value="@review.ReviewId" />
+                                                        <button type="submit" class="btn btn-link p-0 text-danger small" style="text-decoration: none;">
+                                                            <i class="fas fa-trash-alt"></i>
+                                                        </button>
+                                                    </form>
+                                                }
+                                            </div>
                                             <span class="text-warning">
                                                 @for(int i=0; i<review.Rating; i++) { <i class="fas fa-star"></i> }
                                                 @for(int i=review.Rating; i<5; i++) { <i class="far fa-star"></i> }

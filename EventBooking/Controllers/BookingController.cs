@@ -233,5 +233,39 @@ namespace EventBooking.Controllers
 
             return View(booking);
         }
+        // POST: /Booking/Cancel/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public async Task<IActionResult> Cancel(int id)
+        {
+            var booking = await _context.Bookings
+                .Include(b => b.Event)
+                .FirstOrDefaultAsync(b => b.BookingId == id);
+
+            if (booking == null) return NotFound();
+
+            // Security: Only owner or Admin can cancel
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var member = await _context.Members.FirstOrDefaultAsync(m => m.UserId == userId);
+
+            if (!User.IsInRole("Admin") && booking.MemberId != member?.MemberId)
+            {
+                return Forbid();
+            }
+
+            // Logic: Can we cancel past events? implementation_plan says "Upcoming".
+            if (booking.Event.EventDate < DateTime.Now)
+            {
+                TempData["Error"] = "Cannot cancel bookings for past events.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            _context.Bookings.Remove(booking);
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = "Booking cancelled successfully. Seats have been released.";
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

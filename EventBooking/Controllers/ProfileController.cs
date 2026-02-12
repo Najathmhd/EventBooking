@@ -17,25 +17,38 @@ namespace EventBooking.Controllers
             _context = context;
         }
 
-        // GET: Profile/Edit
+        // GET: /Profile
+        public async Task<IActionResult> Index()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var member = await _context.Members
+                .Include(m => m.Bookings)
+                .ThenInclude(b => b.Event)
+                .FirstOrDefaultAsync(m => m.UserId == userId);
+
+            if (member == null) return RedirectToAction("Index", "Home");
+            return View(member);
+        }
+
+        // GET: /Profile/Edit
         public async Task<IActionResult> Edit()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var member = await _context.Members.FirstOrDefaultAsync(m => m.UserId == userId);
 
-            if (member == null)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
+            if (member == null) return RedirectToAction("Index", "Home");
             return View(member);
         }
 
-        // POST: Profile/Edit
+        // POST: /Profile/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit([Bind("MemberId,FullName,Email,PhoneNumber,Preferences,UserId")] Member member)
         {
+            // Verify ownership
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (member.UserId != userId) return Forbid();
+
             if (ModelState.IsValid)
             {
                 try
@@ -55,7 +68,7 @@ namespace EventBooking.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction(nameof(Index));
             }
             return View(member);
         }

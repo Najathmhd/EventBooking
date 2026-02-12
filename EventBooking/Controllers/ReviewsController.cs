@@ -61,5 +61,22 @@ namespace EventBooking.Controllers
             TempData["Success"] = "Thank you for your feedback!";
             return RedirectToAction("Details", "Events", new { id = eventId });
         }
+
+        // POST: Reviews/Delete/5
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var review = await _context.Reviews.FindAsync(id);
+            if (review == null) return NotFound();
+
+            var eventId = review.EventId;
+            _context.Reviews.Remove(review);
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = "Review removed by Administrator.";
+            return RedirectToAction("Details", "Events", new { id = eventId });
+        }
     }
 }

@@ -1,0 +1,59 @@
+@model EventBooking.Models.Member
+
+@{
+    ViewData["Title"] = "My Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-5 mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 animate-slide-up">
+            <div class="card shadow-lg border-0 overflow-hidden">
+                <div class="card-header bg-primary text-white p-5 text-center">
+                    <div class="mb-3">
+                         <img src="https://ui-avatars.com/api/?name=@Model.FullName&background=fff&color=0d6efd&bold=true&size=128" class="rounded-circle shadow border border-4 border-white" width="120" alt="Profile" />
+                    </div>
+                    <h2 class="fw-bold mb-0">@Model.FullName</h2>
+                    <p class="opacity-75 mb-0">@Model.Email</p>
+                </div>
+                <div class="card-body p-5">
+                    <div class="row g-4 mb-5">
+                        <div class="col-md-6">
+                            <label class="small text-muted text-uppercase fw-bold mb-2">Member ID</label>
+                            <div class="fs-5 text-dark">#@Model.MemberId.ToString("D6")</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="small text-muted text-uppercase fw-bold mb-2">Phone Number</label>
+                            <div class="fs-5 text-dark">@(string.IsNullOrEmpty(Model.PhoneNumber) ? "Not Provided" : Model.PhoneNumber)</div>
+                        </div>
+                        <div class="col-12">
+                            <label class="small text-muted text-uppercase fw-bold mb-2">Cultural Preferences</label>
+                            <div class="p-3 bg-light rounded-3 border">
+                                @if (string.IsNullOrEmpty(Model.Preferences))
+                                {
+                                    <span class="text-muted fst-italic">No preferences set. Add them to get better recommendations.</span>
+                                }
+                                else
+                                {
+                                    <span class="text-dark">@Model.Preferences</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-3">
+                        <a asp-action="Edit" class="btn btn-outline-primary btn-lg shadow-sm">
+                            <i class="fas fa-edit me-2"></i>Edit Profile
+                        </a>
+                        <a asp-controller="Booking" asp-action="Index" class="btn btn-primary btn-lg shadow-sm">
+                            <i class="fas fa-ticket-alt me-2"></i>View My Digital Wallet
+                        </a>
+                    </div>
+                </div>
+                <div class="card-footer bg-light p-4 text-center">
+                    <small class="text-muted">Need to change your password? <a asp-area="Identity" asp-page="/Account/Manage/ChangePassword" class="text-primary fw-bold">Manage Security Settings</a></small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
